@@ -204,10 +204,10 @@ const Home: React.FC = () => {
                 <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">New Arrivals</span>
                 <div className="h-px w-20 bg-brand-gold/30"></div>
               </div>
-              <h2 className="text-6xl font-display font-bold uppercase tracking-tighter">Latest Pieces</h2>
+              <h2 className="text-6xl font-display font-bold uppercase tracking-tighter">Latest Products</h2>
             </div>
             <Link to="/shop" className="premium-button-outline px-10 h-14 flex items-center justify-center text-[10px] tracking-[0.2em]">
-              VIEW ALL ARCHIVE
+              VIEW ALL COLLECTIONS
             </Link>
           </div>
 

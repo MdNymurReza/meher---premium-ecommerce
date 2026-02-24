@@ -211,7 +211,7 @@ const Checkout: React.FC = () => {
                     />
                     <div>
                       <span className="font-bold block uppercase tracking-tight">bKash Manual</span>
-                      <span className="text-[10px] text-brand-ink/40 uppercase tracking-widest font-bold">Send to: 01700000000</span>
+                      <span className="text-[10px] text-brand-ink/40 uppercase tracking-widest font-bold">Send to: 01618910756</span>
                     </div>
                   </div>
                   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Bkash_logo.png/1200px-Bkash_logo.png" alt="bKash" className="h-6" />

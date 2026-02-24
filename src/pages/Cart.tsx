@@ -102,12 +102,12 @@ const Cart: React.FC = () => {
               </div>
               <div className="flex justify-between text-sm font-medium text-brand-ink/60">
                 <span className="uppercase tracking-widest">Shipping</span>
-                <span className="text-emerald-600">{totalPrice > 5000 ? 'COMPLIMENTARY' : '৳100'}</span>
+                <span className="text-emerald-600">{totalPrice > 5000 ? 'COMPLIMENTARY' : '৳120'}</span>
               </div>
               <div className="h-px bg-black/5"></div>
               <div className="flex justify-between font-bold text-2xl tracking-tighter">
                 <span className="uppercase tracking-widest text-xs self-center">Total</span>
-                <span>৳{(totalPrice + (totalPrice > 5000 ? 0 : 100)).toLocaleString()}</span>
+                <span>৳{(totalPrice + (totalPrice > 5000 ? 0 : 120)).toLocaleString()}</span>
               </div>
             </div>
 
