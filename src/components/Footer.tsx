@@ -49,13 +49,25 @@ const Footer: React.FC = () => {
           <div className="md:col-span-3">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold mb-8">Stay Informed</h3>
             <p className="text-white/40 text-xs mb-6 leading-relaxed">Join our inner circle for exclusive previews and archival updates.</p>
-            <form className="relative">
+            <form 
+              className="relative"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const email = (e.target as any).email.value;
+                if (email) {
+                  alert(`Thank you! ${email} has been added to our archive list.`);
+                  (e.target as any).reset();
+                }
+              }}
+            >
               <input 
                 type="email" 
+                name="email"
+                required
                 placeholder="EMAIL ADDRESS" 
                 className="bg-transparent border-b border-white/10 w-full py-3 text-[10px] font-bold tracking-widest outline-none focus:border-brand-gold transition-colors placeholder:text-white/20"
               />
-              <button className="absolute right-0 top-1/2 -translate-y-1/2 text-[10px] font-bold tracking-widest text-brand-gold hover:text-white transition-colors">
+              <button type="submit" className="absolute right-0 top-1/2 -translate-y-1/2 text-[10px] font-bold tracking-widest text-brand-gold hover:text-white transition-colors">
                 SIGN UP
               </button>
             </form>

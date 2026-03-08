@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import { collection, addDoc, serverTimestamp, doc, updateDoc, increment } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, doc, updateDoc, increment, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { motion } from 'motion/react';
-import { CheckCircle2, CreditCard, Truck, ShieldCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { CheckCircle2, CreditCard, Truck, ShieldCheck, Tag, X } from 'lucide-react';
+import { Discount } from '../types';
 
 const Checkout: React.FC = () => {
   const { items, totalPrice, clearCart } = useCart();
@@ -22,8 +23,47 @@ const Checkout: React.FC = () => {
     transactionId: ''
   });
 
+  const [discountCode, setDiscountCode] = useState('');
+  const [appliedDiscount, setAppliedDiscount] = useState<Discount | null>(null);
+  const [discountError, setDiscountError] = useState('');
+  const [checkingDiscount, setCheckingDiscount] = useState(false);
+
+  const handleApplyDiscount = async () => {
+    if (!discountCode.trim()) return;
+    setCheckingDiscount(true);
+    setDiscountError('');
+    
+    try {
+      const q = query(collection(db, 'discounts'), where('code', '==', discountCode.toUpperCase()), where('active', '==', true));
+      const snap = await getDocs(q);
+      
+      if (snap.empty) {
+        setDiscountError('Invalid or expired code');
+      } else {
+        const discount = { id: snap.docs[0].id, ...snap.docs[0].data() } as Discount;
+        if (discount.minPurchase && totalPrice < discount.minPurchase) {
+          setDiscountError(`Minimum purchase of ৳${discount.minPurchase} required`);
+        } else {
+          setAppliedDiscount(discount);
+          setDiscountCode('');
+        }
+      }
+    } catch (error) {
+      console.error("Error checking discount:", error);
+      setDiscountError('Failed to verify code');
+    } finally {
+      setCheckingDiscount(false);
+    }
+  };
+
+  const discountAmount = appliedDiscount 
+    ? (appliedDiscount.type === 'percentage' 
+        ? (totalPrice * appliedDiscount.value) / 100 
+        : appliedDiscount.value)
+    : 0;
+
   const shippingCost = totalPrice > 5000 ? 0 : 100;
-  const finalTotal = totalPrice + shippingCost;
+  const finalTotal = totalPrice - discountAmount + shippingCost;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,6 +84,9 @@ const Checkout: React.FC = () => {
           color: item.color || '',
           image: item.image || ''
         })),
+        subtotal: totalPrice,
+        discountCode: appliedDiscount?.code || null,
+        discountAmount: discountAmount,
         totalPrice: finalTotal,
         paymentMethod: formData.paymentMethod,
         transactionId: formData.transactionId || '',
@@ -211,7 +254,7 @@ const Checkout: React.FC = () => {
                     />
                     <div>
                       <span className="font-bold block uppercase tracking-tight">bKash Manual</span>
-                      <span className="text-[10px] text-brand-ink/40 uppercase tracking-widest font-bold">Send to: 01618910756</span>
+                      <span className="text-[10px] text-brand-ink/40 uppercase tracking-widest font-bold">Send to: 01700000000</span>
                     </div>
                   </div>
                   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Bkash_logo.png/1200px-Bkash_logo.png" alt="bKash" className="h-6" />
@@ -263,6 +306,47 @@ const Checkout: React.FC = () => {
                 <span className="uppercase tracking-widest">Subtotal</span>
                 <span>৳{totalPrice.toLocaleString()}</span>
               </div>
+              
+              {/* Discount Section */}
+              <div className="space-y-4">
+                {appliedDiscount ? (
+                  <div className="flex justify-between items-center bg-emerald-50 p-4 rounded-xl border border-emerald-100">
+                    <div className="flex items-center gap-3">
+                      <Tag size={14} className="text-emerald-600" />
+                      <div>
+                        <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{appliedDiscount.code}</p>
+                        <p className="text-[8px] text-emerald-600/60 font-bold uppercase tracking-widest">
+                          {appliedDiscount.type === 'percentage' ? `${appliedDiscount.value}% OFF` : `৳${appliedDiscount.value} OFF`}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className="text-sm font-bold text-emerald-600">-৳{discountAmount.toLocaleString()}</span>
+                      <button onClick={() => setAppliedDiscount(null)} className="text-emerald-600 hover:text-emerald-800"><X size={14} /></button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <input 
+                      type="text" 
+                      placeholder="PROMO CODE" 
+                      className="flex-grow bg-brand-beige/20 border-none rounded-xl px-4 py-3 text-[10px] font-bold tracking-widest outline-none focus:ring-1 focus:ring-brand-gold/20"
+                      value={discountCode}
+                      onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
+                    />
+                    <button 
+                      type="button"
+                      onClick={handleApplyDiscount}
+                      disabled={checkingDiscount || !discountCode}
+                      className="bg-brand-ink text-white px-6 rounded-xl text-[10px] font-bold tracking-widest hover:bg-brand-gold transition-colors disabled:opacity-50"
+                    >
+                      {checkingDiscount ? '...' : 'APPLY'}
+                    </button>
+                  </div>
+                )}
+                {discountError && <p className="text-[8px] font-bold text-rose-500 uppercase tracking-widest ml-2">{discountError}</p>}
+              </div>
+
               <div className="flex justify-between text-sm font-medium text-brand-ink/60">
                 <span className="uppercase tracking-widest">Shipping</span>
                 <span className="text-emerald-600">{shippingCost === 0 ? 'COMPLIMENTARY' : `৳${shippingCost}`}</span>

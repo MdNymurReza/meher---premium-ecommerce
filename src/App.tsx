@@ -23,6 +23,7 @@ import AdminDashboard from './pages/Admin/Dashboard';
 import AdminProducts from './pages/Admin/Products';
 import AdminOrders from './pages/Admin/Orders';
 import AdminCustomers from './pages/Admin/Customers';
+import AdminDiscounts from './pages/Admin/Discounts';
 
 const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAdmin, loading } = useAuth();
@@ -60,6 +61,7 @@ export default function App() {
                 <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
                 <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
                 <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
+                <Route path="/admin/discounts" element={<AdminRoute><AdminDiscounts /></AdminRoute>} />
                 <Route path="/admin/customers" element={<AdminRoute><AdminCustomers /></AdminRoute>} />
               </Routes>
             </main>

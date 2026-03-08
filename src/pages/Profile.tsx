@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Order } from '../types';
-import { Package, MapPin, Phone, Calendar, ShoppingBag, ChevronRight, Clock, CheckCircle, Truck, XCircle } from 'lucide-react';
+import { Package, MapPin, Phone, Calendar, ShoppingBag, ChevronRight, Clock, CheckCircle, Truck, XCircle, Tag } from 'lucide-react';
 import { format } from 'date-fns';
 import { motion } from 'motion/react';
 import OrderTrackingTimeline from '../components/OrderTrackingTimeline';
@@ -159,8 +159,16 @@ const Profile: React.FC = () => {
                         <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">
                           <Phone size={14} className="text-brand-gold" strokeWidth={1.5} /> {order.phone}
                         </div>
+                        {order.discountCode && (
+                          <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-emerald-600">
+                            <Tag size={14} strokeWidth={1.5} /> Promo: {order.discountCode} (-৳{order.discountAmount?.toLocaleString()})
+                          </div>
+                        )}
                       </div>
                       <div className="flex flex-col items-end justify-center">
+                        {order.discountAmount && order.discountAmount > 0 && (
+                          <p className="text-[10px] font-bold text-brand-ink/30 uppercase tracking-[0.2em] mb-1 line-through">৳{order.subtotal?.toLocaleString()}</p>
+                        )}
                         <p className="text-[8px] font-bold text-brand-ink/30 uppercase tracking-[0.3em] mb-1">Total Amount</p>
                         <p className="text-3xl font-display font-bold tracking-tighter text-brand-gold">৳{order.totalPrice.toLocaleString()}</p>
                       </div>

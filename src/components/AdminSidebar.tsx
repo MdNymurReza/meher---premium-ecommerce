@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingBag, Users, Settings, ArrowLeft, LogOut } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingBag, Users, Settings, ArrowLeft, LogOut, Tag } from 'lucide-react';
 
 const AdminSidebar: React.FC = () => {
   const location = useLocation();
@@ -9,6 +9,7 @@ const AdminSidebar: React.FC = () => {
     { name: 'Overview', path: '/admin', icon: LayoutDashboard },
     { name: 'Products', path: '/admin/products', icon: Package },
     { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
+    { name: 'Discounts', path: '/admin/discounts', icon: Tag },
     { name: 'Customers', path: '/admin/customers', icon: Users },
   ];
 

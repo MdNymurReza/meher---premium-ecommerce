@@ -39,6 +39,19 @@ service cloud.firestore {
       allow create: if isSignedIn();
       allow update: if isAdmin();
     }
+
+    // Reviews
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isSignedIn();
+      allow update, delete: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+    }
+
+    // Discounts
+    match /discounts/{discountId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
   }
 }
 ```

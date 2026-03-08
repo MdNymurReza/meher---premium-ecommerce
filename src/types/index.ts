@@ -46,12 +46,25 @@ export interface OrderItem {
 
 export type OrderStatus = 'Pending' | 'Confirmed' | 'Shipped' | 'Delivered' | 'Cancelled';
 
+export interface Discount {
+  id: string;
+  code: string;
+  type: 'percentage' | 'fixed';
+  value: number;
+  minPurchase?: number;
+  active: boolean;
+  createdAt: any;
+}
+
 export interface Order {
   id: string;
   userId: string;
   customerName: string;
   email: string;
   products: OrderItem[];
+  subtotal: number;
+  discountCode?: string;
+  discountAmount?: number;
   totalPrice: number;
   paymentMethod: 'COD' | 'bKash';
   transactionId?: string;
