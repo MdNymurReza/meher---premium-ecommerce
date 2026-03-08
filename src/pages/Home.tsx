@@ -4,6 +4,7 @@ import { collection, query, limit, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
+import ProductSkeleton from '../components/ProductSkeleton';
 import { motion } from 'motion/react';
 import { ArrowRight, Play, Sparkles } from 'lucide-react';
 
@@ -189,7 +190,7 @@ const Home: React.FC = () => {
           {loading ? (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
               {[1, 2, 3, 4].map(i => (
-                <div key={i} className="aspect-[3/4] bg-white animate-pulse rounded-[2.5rem]"></div>
+                <ProductSkeleton key={i} />
               ))}
             </div>
           ) : (

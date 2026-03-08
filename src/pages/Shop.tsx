@@ -4,6 +4,7 @@ import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
+import ProductSkeleton from '../components/ProductSkeleton';
 import { Filter, X, ChevronDown, Search, SlidersHorizontal } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -179,7 +180,7 @@ const Shop: React.FC = () => {
             {loading ? (
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-10">
                 {[1, 2, 3, 4, 5, 6].map(i => (
-                  <div key={i} className="aspect-[3/4] bg-brand-beige/30 animate-pulse rounded-[2.5rem]"></div>
+                  <ProductSkeleton key={i} />
                 ))}
               </div>
             ) : products.length === 0 ? (
