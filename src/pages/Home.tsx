@@ -12,11 +12,11 @@ const Home: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [settings, setSettings] = useState<SiteSettings>({
-    heroImage: 'https://picsum.photos/seed/luxury-vibe/1200/1600',
+    heroImage: 'https://res.cloudinary.com/dajajl3ct/image/upload/v1773001189/IMG_6380_ukr7in.jpg',
     heroHeading: 'Meher Mala',
     heroSubheading: 'A sanctuary of timeless elegance. Handcrafted jewellery and premium apparel for the discerning soul.',
     marqueeText: ['Handcrafted Excellence', 'Premium Materials', 'Timeless Design'],
-    brandStoryImage: 'https://picsum.photos/seed/craft/1000/1250',
+    brandStoryImage: 'https://res.cloudinary.com/dajajl3ct/image/upload/v1773001189/IMG_6380_ukr7in.jpg',
     updatedAt: null
   });
   const [loading, setLoading] = useState(true);
@@ -169,7 +169,7 @@ const Home: React.FC = () => {
               className={`${idx === 0 || idx === 3 ? 'md:col-span-7' : 'md:col-span-5'} relative group aspect-[16/10] md:aspect-auto overflow-hidden rounded-[3rem] shadow-2xl shadow-black/5 min-h-[400px]`}
             >
               <img 
-                src={`https://picsum.photos/seed/${cat.name.toLowerCase()}/1200/800`} 
+                src={`https://res.cloudinary.com/dajajl3ct/image/upload/v1773001189/IMG_6380_ukr7in.jpg`} 
                 alt={cat.name} 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
                 referrerPolicy="no-referrer" 
