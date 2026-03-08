@@ -12,11 +12,11 @@ const Home: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [settings, setSettings] = useState<SiteSettings>({
-    heroImage: 'https://res.cloudinary.com/dajajl3ct/image/upload/v1773001189/IMG_6380_ukr7in.jpg',
+    heroImage: 'https://picsum.photos/seed/luxury-vibe/1200/1600',
     heroHeading: 'Meher Mala',
     heroSubheading: 'A sanctuary of timeless elegance. Handcrafted jewellery and premium apparel for the discerning soul.',
     marqueeText: ['Handcrafted Excellence', 'Premium Materials', 'Timeless Design'],
-    brandStoryImage: 'https://res.cloudinary.com/dajajl3ct/image/upload/v1773001189/IMG_6380_ukr7in.jpg',
+    brandStoryImage: 'https://picsum.photos/seed/craft/1000/1250',
     updatedAt: null
   });
   const [loading, setLoading] = useState(true);
@@ -59,21 +59,21 @@ const Home: React.FC = () => {
     <div className="space-y-32 pb-32">
       {/* Hero Section - Split Layout */}
       <section className="relative min-h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
-        <div className="relative flex items-center justify-center p-8 lg:p-24 bg-brand-paper">
+        <div className="relative flex items-center justify-center p-6 lg:p-24 bg-brand-paper overflow-hidden">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-xl z-10"
+            className="max-w-xl z-10 w-full"
           >
             <div className="flex items-center gap-4 mb-8">
-              <span className="text-brand-gold font-bold tracking-[0.5em] uppercase text-[10px]">Est. 2026 — Dhaka</span>
+              <span className="text-brand-gold font-bold tracking-[0.5em] uppercase text-[8px] lg:text-[10px]">Est. 2026 — Dhaka</span>
               <div className="h-px w-12 bg-brand-gold/30"></div>
             </div>
-            <h1 className="text-[12vw] lg:text-[8vw] font-display font-bold leading-[0.85] text-brand-ink uppercase tracking-tighter mb-12">
+            <h1 className="text-[15vw] lg:text-[8vw] font-display font-bold leading-[0.85] text-brand-ink uppercase tracking-tighter mb-12 break-words">
               {settings.heroHeading.split(' ')[0]} <br /> <span className="text-brand-gold italic font-serif lowercase tracking-normal ml-[2vw]">{settings.heroHeading.split(' ').slice(1).join(' ')}</span>
             </h1>
-            <p className="text-xl text-brand-ink/60 max-w-md leading-relaxed font-light mb-12">
+            <p className="text-lg lg:text-xl text-brand-ink/60 max-w-md leading-relaxed font-light mb-12">
               {settings.heroSubheading}
             </p>
             <div className="flex flex-wrap gap-6">
@@ -145,13 +145,13 @@ const Home: React.FC = () => {
 
       {/* Categories Grid - Bento Style */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
           <div className="max-w-2xl">
             <div className="flex items-baseline gap-4 mb-4">
               <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">The Archive</span>
               <div className="h-px w-20 bg-brand-gold/30"></div>
             </div>
-            <h2 className="text-6xl lg:text-7xl font-display font-bold uppercase tracking-tighter leading-[0.9]">Curated <br /> Collections</h2>
+            <h2 className="text-5xl lg:text-7xl font-display font-bold uppercase tracking-tighter leading-[0.9]">Curated <br /> Collections</h2>
           </div>
           <p className="text-brand-ink/40 text-sm max-w-xs font-light leading-relaxed">
             Explore our meticulously crafted categories, each designed to elevate your personal style.
@@ -166,10 +166,10 @@ const Home: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className={`${idx === 0 || idx === 3 ? 'md:col-span-7' : 'md:col-span-5'} relative group aspect-[16/10] md:aspect-auto overflow-hidden rounded-[3rem] shadow-2xl shadow-black/5 min-h-[400px]`}
+              className={`${idx === 0 || idx === 3 ? 'md:col-span-7' : 'md:col-span-5'} relative group aspect-[16/10] md:aspect-auto overflow-hidden rounded-[2rem] lg:rounded-[3rem] shadow-2xl shadow-black/5 min-h-[300px] lg:min-h-[400px]`}
             >
               <img 
-                src={`https://res.cloudinary.com/dajajl3ct/image/upload/v1773001189/IMG_6380_ukr7in.jpg`} 
+                src={`https://picsum.photos/seed/${cat.name.toLowerCase()}/1200/800`} 
                 alt={cat.name} 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
                 referrerPolicy="no-referrer" 
@@ -201,7 +201,7 @@ const Home: React.FC = () => {
                 <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">New Arrivals</span>
                 <div className="h-px w-20 bg-brand-gold/30"></div>
               </div>
-              <h2 className="text-6xl font-display font-bold uppercase tracking-tighter">Latest Pieces</h2>
+              <h2 className="text-5xl lg:text-6xl font-display font-bold uppercase tracking-tighter">Latest Pieces</h2>
             </div>
             <Link to="/shop" className="premium-button-outline px-10 h-14 flex items-center justify-center text-[10px] tracking-[0.2em]">
               VIEW ALL ARCHIVE
@@ -234,9 +234,9 @@ const Home: React.FC = () => {
 
       {/* Brand Story - Immersive */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
           <div className="relative">
-            <div className="aspect-[4/5] rounded-[4rem] overflow-hidden shadow-2xl shadow-black/10">
+            <div className="aspect-[4/5] rounded-[2rem] lg:rounded-[4rem] overflow-hidden shadow-2xl shadow-black/10">
               <img 
                 src={settings.brandStoryImage} 
                 alt="Craftsmanship" 
@@ -249,22 +249,22 @@ const Home: React.FC = () => {
               initial={{ x: 50, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
-              className="absolute -bottom-16 -right-16 w-64 aspect-square rounded-[3rem] overflow-hidden shadow-2xl border-8 border-brand-paper hidden xl:block"
+              className="absolute -bottom-16 -right-16 w-64 aspect-square rounded-[2rem] lg:rounded-[3rem] overflow-hidden shadow-2xl border-8 border-brand-paper hidden xl:block"
             >
               <img src="https://picsum.photos/seed/detail/500/500" alt="Detail" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </motion.div>
           </div>
-          <div className="space-y-12">
+          <div className="space-y-8 lg:space-y-12">
             <div className="flex items-baseline gap-4">
               <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">Our Philosophy</span>
               <div className="h-px flex-grow bg-brand-gold/30"></div>
             </div>
-            <h2 className="text-7xl lg:text-8xl font-display font-bold uppercase tracking-tighter leading-[0.85]">Crafted <br /> with <span className="text-brand-gold italic font-serif lowercase tracking-normal">Soul</span></h2>
+            <h2 className="text-6xl lg:text-8xl font-display font-bold uppercase tracking-tighter leading-[0.85]">Crafted <br /> with <span className="text-brand-gold italic font-serif lowercase tracking-normal">Soul</span></h2>
             <div className="space-y-6">
-              <p className="text-xl text-brand-ink/60 leading-relaxed font-light">
+              <p className="text-lg lg:text-xl text-brand-ink/60 leading-relaxed font-light">
                 At Meher Mala, we believe that every piece tells a story. From the selection of the finest materials to the final finishing touches, our artisans pour their heart and soul into every creation.
               </p>
-              <p className="text-xl text-brand-ink/60 leading-relaxed font-light">
+              <p className="text-lg lg:text-xl text-brand-ink/60 leading-relaxed font-light">
                 Our mission is to provide you with luxury that is both accessible and sustainable, ensuring that you feel as good as you look.
               </p>
             </div>

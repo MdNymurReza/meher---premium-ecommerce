@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
               <li><Link to="/profile" className="hover:text-white transition-colors">Account</Link></li>
               <li><Link to="/cart" className="hover:text-white transition-colors">Shipping</Link></li>
               <li><Link to="/cart" className="hover:text-white transition-colors">Returns</Link></li>
-              <li><Link to="/cart" className="hover:text-white transition-colors">Privacy</Link></li>
+              <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy</Link></li>
             </ul>
           </div>
 

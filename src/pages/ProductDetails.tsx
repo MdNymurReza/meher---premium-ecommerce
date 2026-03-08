@@ -26,6 +26,10 @@ const ProductDetails: React.FC = () => {
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
   const [submittingReview, setSubmittingReview] = useState(false);
 
+  const averageRating = reviews.length > 0 
+    ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
+    : product?.rating || '0.0';
+
   useEffect(() => {
     const fetchProductAndReviews = async () => {
       if (!id) return;
@@ -146,10 +150,10 @@ const ProductDetails: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
         {/* Image Gallery */}
-        <div className="lg:col-span-7 space-y-8">
-          <div className="relative aspect-[3/4] rounded-[3rem] overflow-hidden bg-brand-beige/30 shadow-2xl shadow-black/5">
+        <div className="lg:col-span-7 space-y-6 lg:space-y-8">
+          <div className="relative aspect-[3/4] rounded-[2rem] lg:rounded-[3rem] overflow-hidden bg-brand-beige/30 shadow-2xl shadow-black/5">
             <AnimatePresence mode="wait">
               <motion.img 
                 key={activeImage}
@@ -202,13 +206,13 @@ const ProductDetails: React.FC = () => {
               </div>
               <div className="flex items-center gap-1.5 bg-brand-beige/50 px-3 py-1.5 rounded-full">
                 <Star size={12} className="text-brand-gold fill-brand-gold" />
-                <span className="text-[10px] font-bold">{product.rating || '4.8'}</span>
+                <span className="text-[10px] font-bold">{averageRating}</span>
                 <span className="text-[10px] text-brand-ink/30 font-bold uppercase tracking-widest ml-1">({reviews?.length || 0})</span>
               </div>
             </div>
-            <h1 className="text-7xl font-display font-bold uppercase tracking-tighter leading-[0.85]">{product.name}</h1>
+            <h1 className="text-5xl lg:text-7xl font-display font-bold uppercase tracking-tighter leading-[0.85]">{product.name}</h1>
             <div className="flex items-baseline gap-6">
-              <p className="text-5xl font-light text-brand-ink">৳{product.price?.toLocaleString() || 0}</p>
+              <p className="text-4xl lg:text-5xl font-light text-brand-ink">৳{product.price?.toLocaleString() || 0}</p>
               {product.stock < 5 && product.stock > 0 && (
                 <span className="text-[10px] font-bold text-rose-500 uppercase tracking-widest bg-rose-50 px-3 py-1 rounded-full">Only {product.stock} left</span>
               )}
@@ -266,20 +270,42 @@ const ProductDetails: React.FC = () => {
                 <span className="w-12 text-center font-bold text-lg">{quantity}</span>
                 <button onClick={() => setQuantity(quantity + 1)} className="w-10 h-10 flex items-center justify-center text-xl font-light hover:text-brand-gold transition-colors">+</button>
               </div>
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
-                className="flex-grow premium-button-primary h-20 text-sm tracking-[0.3em] flex items-center justify-center gap-4 group"
+                className={`flex-grow h-20 text-sm tracking-[0.3em] flex items-center justify-center gap-4 group rounded-2xl transition-all duration-500 ${
+                  added 
+                    ? 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/20' 
+                    : 'bg-brand-ink text-white hover:bg-brand-gold shadow-xl shadow-black/10'
+                } disabled:bg-brand-ink/20 disabled:cursor-not-allowed`}
               >
-                {added ? (
-                  <><Check size={20} /> ADDED TO CART</>
-                ) : (
-                  <>
-                    <ShoppingCart size={20} className="group-hover:scale-110 transition-transform" /> 
-                    {product.stock === 0 ? 'SOLD OUT' : 'ADD TO ARCHIVE'}
-                  </>
-                )}
-              </button>
+                <AnimatePresence mode="wait">
+                  {added ? (
+                    <motion.div
+                      key="added"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex items-center gap-4"
+                    >
+                      <Check size={20} /> ADDED TO CART
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="add"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex items-center gap-4"
+                    >
+                      <ShoppingCart size={20} className="group-hover:scale-110 transition-transform" /> 
+                      {product.stock === 0 ? 'SOLD OUT' : 'ADD TO ARCHIVE'}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.button>
             </div>
           </div>
 
@@ -308,9 +334,9 @@ const ProductDetails: React.FC = () => {
       </div>
 
       {/* Reviews Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-48">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-24">
-          <div className="lg:col-span-4 space-y-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 lg:mt-48">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+          <div className="lg:col-span-4 space-y-8 lg:space-y-12">
             <div>
               <div className="flex items-baseline gap-4 mb-4">
                 <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">Feedback</span>
@@ -321,11 +347,11 @@ const ProductDetails: React.FC = () => {
             
             <div className="bg-brand-beige/30 p-10 rounded-[2.5rem] space-y-8">
               <div className="flex items-center gap-6">
-                <span className="text-7xl font-display font-bold text-brand-gold">{product.rating || '4.8'}</span>
+                <span className="text-7xl font-display font-bold text-brand-gold">{averageRating}</span>
                 <div>
                   <div className="flex gap-1 mb-2">
                     {[1, 2, 3, 4, 5].map(i => (
-                      <Star key={i} size={16} className={i <= Math.round(product.rating || 4.8) ? 'text-brand-gold fill-brand-gold' : 'text-brand-ink/10'} />
+                      <Star key={i} size={16} className={i <= Math.round(Number(averageRating)) ? 'text-brand-gold fill-brand-gold' : 'text-brand-ink/10'} />
                     ))}
                   </div>
                   <p className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Based on {reviews.length} reviews</p>
@@ -429,7 +455,7 @@ const ProductDetails: React.FC = () => {
                         {review.createdAt?.toDate ? format(review.createdAt.toDate(), 'MMM dd, yyyy') : 'Recent'}
                       </span>
                     </div>
-                    <p className="text-brand-ink/60 font-light leading-relaxed pl-18">{review.comment}</p>
+                    <p className="text-brand-ink/60 font-light leading-relaxed pl-0 md:pl-18">{review.comment}</p>
                     <div className="h-px w-full bg-black/5 mt-12"></div>
                   </motion.div>
                 ))
