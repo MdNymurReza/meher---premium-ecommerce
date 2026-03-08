@@ -73,10 +73,16 @@ const AdminDashboard: React.FC = () => {
             <h1 className="text-6xl font-display font-bold uppercase tracking-tighter">Archive Intel</h1>
           </div>
           <div className="flex gap-4">
-            <button className="flex items-center gap-3 bg-brand-ink text-white px-8 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand-gold transition-all shadow-xl shadow-black/10">
+            <button 
+              onClick={() => navigate('/admin/products')}
+              className="flex items-center gap-3 bg-brand-ink text-white px-8 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand-gold transition-all shadow-xl shadow-black/10"
+            >
               <Plus size={16} /> New Product
             </button>
-            <button className="p-4 bg-brand-beige/30 rounded-2xl hover:bg-brand-beige transition-colors">
+            <button 
+              onClick={() => navigate('/admin/settings')}
+              className="p-4 bg-brand-beige/30 rounded-2xl hover:bg-brand-beige transition-colors"
+            >
               <Settings size={20} strokeWidth={1.5} />
             </button>
           </div>
@@ -193,9 +199,12 @@ const AdminDashboard: React.FC = () => {
                   <Layers size={20} className="text-brand-gold" />
                   <span className="text-[8px] font-bold uppercase tracking-widest">Categories</span>
                 </button>
-                <button className="flex flex-col items-center justify-center gap-4 p-6 bg-white/5 rounded-3xl hover:bg-white/10 transition-all border border-white/5">
-                  <Users size={20} className="text-brand-gold" />
-                  <span className="text-[8px] font-bold uppercase tracking-widest">Customers</span>
+                <button 
+                  onClick={() => navigate('/admin/settings')}
+                  className="flex flex-col items-center justify-center gap-4 p-6 bg-white/5 rounded-3xl hover:bg-white/10 transition-all border border-white/5"
+                >
+                  <Settings size={20} className="text-brand-gold" />
+                  <span className="text-[8px] font-bold uppercase tracking-widest">Settings</span>
                 </button>
               </div>
             </div>

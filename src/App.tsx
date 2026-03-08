@@ -27,6 +27,7 @@ import AdminOrders from './pages/Admin/Orders';
 import AdminCustomers from './pages/Admin/Customers';
 import AdminDiscounts from './pages/Admin/Discounts';
 import AdminCategories from './pages/Admin/Categories';
+import AdminSettings from './pages/Admin/Settings';
 
 const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAdmin, loading } = useAuth();
@@ -69,6 +70,7 @@ export default function App() {
                 <Route path="/admin/discounts" element={<AdminRoute><AdminDiscounts /></AdminRoute>} />
                 <Route path="/admin/categories" element={<AdminRoute><AdminCategories /></AdminRoute>} />
                 <Route path="/admin/customers" element={<AdminRoute><AdminCustomers /></AdminRoute>} />
+                <Route path="/admin/settings" element={<AdminRoute><AdminSettings /></AdminRoute>} />
               </Routes>
             </main>
             <Footer />

@@ -12,6 +12,7 @@ const AdminSidebar: React.FC = () => {
     { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
     { name: 'Discounts', path: '/admin/discounts', icon: Tag },
     { name: 'Customers', path: '/admin/customers', icon: Users },
+    { name: 'Settings', path: '/admin/settings', icon: Settings },
   ];
 
   return (
@@ -45,17 +46,6 @@ const AdminSidebar: React.FC = () => {
             );
           })}
         </nav>
-
-        <div className="mt-16 space-y-4">
-          <p className="text-[8px] font-bold uppercase tracking-[0.4em] text-brand-ink/20 mb-6 ml-6">System</p>
-          <Link
-            to="/admin/settings"
-            className="flex items-center gap-4 px-6 py-5 rounded-2xl text-brand-ink/40 hover:bg-brand-beige/50 hover:text-brand-ink transition-all duration-500 group"
-          >
-            <Settings size={18} strokeWidth={1.5} className="group-hover:text-brand-gold transition-colors" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Settings</span>
-          </Link>
-        </div>
       </div>
 
       <div className="p-10 border-t border-black/5">

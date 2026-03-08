@@ -80,6 +80,15 @@ export interface Category {
   createdAt: any;
 }
 
+export interface SiteSettings {
+  heroImage: string;
+  heroHeading: string;
+  heroSubheading: string;
+  marqueeText: string[];
+  brandStoryImage: string;
+  updatedAt: any;
+}
+
 export const CATEGORIES = [
   "Jewellery",
   "Men's Clothing",

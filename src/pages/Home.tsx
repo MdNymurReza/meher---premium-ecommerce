@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, query, limit, getDocs, orderBy } from 'firebase/firestore';
+import { collection, query, limit, getDocs, orderBy, doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { Product } from '../types';
+import { Product, SiteSettings } from '../types';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton from '../components/ProductSkeleton';
 import { motion } from 'motion/react';
@@ -11,9 +11,30 @@ import { ArrowRight, Play, Sparkles } from 'lucide-react';
 const Home: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
+  const [settings, setSettings] = useState<SiteSettings>({
+    heroImage: 'https://picsum.photos/seed/luxury-vibe/1200/1600',
+    heroHeading: 'Meher Mala',
+    heroSubheading: 'A sanctuary of timeless elegance. Handcrafted jewellery and premium apparel for the discerning soul.',
+    marqueeText: ['Handcrafted Excellence', 'Premium Materials', 'Timeless Design'],
+    brandStoryImage: 'https://picsum.photos/seed/craft/1000/1250',
+    updatedAt: null
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'site');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setSettings(docSnap.data() as SiteSettings);
+        }
+      } catch (error) {
+        console.error("Error fetching settings:", error);
+      }
+    };
+    fetchSettings();
+
     const fetchCategories = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'categories'));
@@ -50,10 +71,10 @@ const Home: React.FC = () => {
               <div className="h-px w-12 bg-brand-gold/30"></div>
             </div>
             <h1 className="text-[12vw] lg:text-[8vw] font-display font-bold leading-[0.85] text-brand-ink uppercase tracking-tighter mb-12">
-              Meher <br /> <span className="text-brand-gold italic font-serif lowercase tracking-normal ml-[2vw]">Mala</span>
+              {settings.heroHeading.split(' ')[0]} <br /> <span className="text-brand-gold italic font-serif lowercase tracking-normal ml-[2vw]">{settings.heroHeading.split(' ').slice(1).join(' ')}</span>
             </h1>
             <p className="text-xl text-brand-ink/60 max-w-md leading-relaxed font-light mb-12">
-              A sanctuary of timeless elegance. Handcrafted jewellery and premium apparel for the discerning soul.
+              {settings.heroSubheading}
             </p>
             <div className="flex flex-wrap gap-6">
               <Link to="/shop" className="premium-button-primary px-12 h-16 flex items-center justify-center text-[10px] tracking-[0.3em]">
@@ -70,7 +91,7 @@ const Home: React.FC = () => {
           
           {/* Background Text Accent */}
           <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[30vw] font-display font-bold text-brand-ink/[0.02] pointer-events-none select-none whitespace-nowrap">
-            MEHER MALA
+            {settings.heroHeading.toUpperCase()}
           </div>
         </div>
         
@@ -79,7 +100,7 @@ const Home: React.FC = () => {
             initial={{ scale: 1.2, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            src="https://picsum.photos/seed/luxury-vibe/1200/1600" 
+            src={settings.heroImage} 
             alt="Hero" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
@@ -111,12 +132,12 @@ const Home: React.FC = () => {
         <div className="flex animate-marquee">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="flex items-center gap-20 px-10">
-              <span className="text-white/40 font-display italic text-4xl tracking-tight">Handcrafted Excellence</span>
-              <span className="w-2 h-2 bg-brand-gold rounded-full"></span>
-              <span className="text-white/40 font-display italic text-4xl tracking-tight">Premium Materials</span>
-              <span className="w-2 h-2 bg-brand-gold rounded-full"></span>
-              <span className="text-white/40 font-display italic text-4xl tracking-tight">Timeless Design</span>
-              <span className="w-2 h-2 bg-brand-gold rounded-full"></span>
+              {settings.marqueeText.map((text, idx) => (
+                <React.Fragment key={idx}>
+                  <span className="text-white/40 font-display italic text-4xl tracking-tight">{text}</span>
+                  <span className="w-2 h-2 bg-brand-gold rounded-full"></span>
+                </React.Fragment>
+              ))}
             </div>
           ))}
         </div>
@@ -217,7 +238,7 @@ const Home: React.FC = () => {
           <div className="relative">
             <div className="aspect-[4/5] rounded-[4rem] overflow-hidden shadow-2xl shadow-black/10">
               <img 
-                src="https://picsum.photos/seed/craft/1000/1250" 
+                src={settings.brandStoryImage} 
                 alt="Craftsmanship" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
