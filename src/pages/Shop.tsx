@@ -10,12 +10,26 @@ import { motion, AnimatePresence } from 'motion/react';
 const Shop: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>(['All']);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
 
   const category = searchParams.get('category') || 'All';
   const sortBy = searchParams.get('sort') || 'newest';
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'categories'));
+        const cats = querySnapshot.docs.map(doc => doc.data().name);
+        setCategories(['All', ...cats]);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -55,8 +69,6 @@ const Shop: React.FC = () => {
 
     fetchProducts();
   }, [category, sortBy, searchQuery]);
-
-  const categories = ['All', 'Jewellery', "Women's Clothing", "Men's Clothing", 'Kids Clothing'];
 
   return (
     <div className="bg-brand-paper min-h-screen pb-32">

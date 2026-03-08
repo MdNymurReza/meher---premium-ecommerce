@@ -74,6 +74,12 @@ export interface Order {
   createdAt: any;
 }
 
+export interface Category {
+  id: string;
+  name: string;
+  createdAt: any;
+}
+
 export const CATEGORIES = [
   "Jewellery",
   "Men's Clothing",

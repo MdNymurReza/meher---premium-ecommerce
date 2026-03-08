@@ -17,6 +17,8 @@ import Wishlist from './pages/Wishlist';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 // Admin Pages
 import AdminDashboard from './pages/Admin/Dashboard';
@@ -24,6 +26,7 @@ import AdminProducts from './pages/Admin/Products';
 import AdminOrders from './pages/Admin/Orders';
 import AdminCustomers from './pages/Admin/Customers';
 import AdminDiscounts from './pages/Admin/Discounts';
+import AdminCategories from './pages/Admin/Categories';
 
 const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAdmin, loading } = useAuth();
@@ -52,6 +55,8 @@ export default function App() {
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
                 
                 <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
                 <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} />
@@ -62,6 +67,7 @@ export default function App() {
                 <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
                 <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
                 <Route path="/admin/discounts" element={<AdminRoute><AdminDiscounts /></AdminRoute>} />
+                <Route path="/admin/categories" element={<AdminRoute><AdminCategories /></AdminRoute>} />
                 <Route path="/admin/customers" element={<AdminRoute><AdminCustomers /></AdminRoute>} />
               </Routes>
             </main>

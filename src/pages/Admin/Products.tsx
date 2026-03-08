@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import AdminSidebar from '../../components/AdminSidebar';
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db, storage } from '../../lib/firebase';
-import { Product, CATEGORIES } from '../../types';
+import { Product } from '../../types';
 import { Plus, Search, Edit2, Trash2, X, Upload, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const AdminProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -19,7 +20,7 @@ const AdminProducts: React.FC = () => {
 
   const [formData, setFormData] = useState({
     name: '',
-    category: CATEGORIES[0],
+    category: '',
     description: '',
     price: 0,
     stock: 0,
@@ -30,7 +31,21 @@ const AdminProducts: React.FC = () => {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'categories'));
+      const cats = querySnapshot.docs.map(doc => doc.data().name);
+      setCategories(cats);
+      if (cats.length > 0 && !editingProduct) {
+        setFormData(prev => ({ ...prev, category: cats[0] }));
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -81,7 +96,7 @@ const AdminProducts: React.FC = () => {
       setIsModalOpen(false);
       setEditingProduct(null);
       setFormData({
-        name: '', category: CATEGORIES[0], description: '', price: 0, stock: 0,
+        name: '', category: categories[0] || '', description: '', price: 0, stock: 0,
         sizes: [], colors: [], images: []
       });
       setSizesInput('');
@@ -148,7 +163,7 @@ const AdminProducts: React.FC = () => {
                 onClick={() => {
                   setEditingProduct(null);
                   setFormData({
-                    name: '', category: CATEGORIES[0], description: '', price: 0, stock: 0,
+                    name: '', category: categories[0] || '', description: '', price: 0, stock: 0,
                     sizes: [], colors: [], images: []
                   });
                   setSizesInput('');
@@ -277,7 +292,7 @@ const AdminProducts: React.FC = () => {
                         className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all appearance-none" 
                         value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}
                       >
-                        {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                        {categories.map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
                     <div>

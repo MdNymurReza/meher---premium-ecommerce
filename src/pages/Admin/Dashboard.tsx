@@ -4,11 +4,13 @@ import { collection, query, getDocs, orderBy, limit, where } from 'firebase/fire
 import { db } from '../../lib/firebase';
 import { Order, Product } from '../../types';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { TrendingUp, ShoppingBag, Package, DollarSign, Clock, ArrowUpRight, Plus, Users, Settings } from 'lucide-react';
+import { TrendingUp, ShoppingBag, Package, DollarSign, Clock, ArrowUpRight, Plus, Users, Settings, Layers } from 'lucide-react';
 import { motion } from 'motion/react';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalRevenue: 0,
     totalOrders: 0,
@@ -184,9 +186,12 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-brand-ink p-12 rounded-[3.5rem] text-white shadow-2xl shadow-black/20">
               <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-brand-gold mb-8">Quick Actions</h3>
               <div className="grid grid-cols-2 gap-4">
-                <button className="flex flex-col items-center justify-center gap-4 p-6 bg-white/5 rounded-3xl hover:bg-white/10 transition-all border border-white/5">
-                  <Plus size={20} className="text-brand-gold" />
-                  <span className="text-[8px] font-bold uppercase tracking-widest">Add Piece</span>
+                <button 
+                  onClick={() => navigate('/admin/categories')}
+                  className="flex flex-col items-center justify-center gap-4 p-6 bg-white/5 rounded-3xl hover:bg-white/10 transition-all border border-white/5"
+                >
+                  <Layers size={20} className="text-brand-gold" />
+                  <span className="text-[8px] font-bold uppercase tracking-widest">Categories</span>
                 </button>
                 <button className="flex flex-col items-center justify-center gap-4 p-6 bg-white/5 rounded-3xl hover:bg-white/10 transition-all border border-white/5">
                   <Users size={20} className="text-brand-gold" />

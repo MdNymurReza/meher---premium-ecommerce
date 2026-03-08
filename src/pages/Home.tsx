@@ -9,9 +9,20 @@ import { ArrowRight, Play, Sparkles } from 'lucide-react';
 
 const Home: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'categories'));
+        setCategories(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+
     const fetchProducts = async () => {
       const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(4));
       const querySnapshot = await getDocs(q);
@@ -126,72 +137,36 @@ const Home: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="md:col-span-7 relative group aspect-[16/10] overflow-hidden rounded-[3rem] shadow-2xl shadow-black/5"
-          >
-            <img src="https://picsum.photos/seed/jewel/1200/800" alt="Jewellery" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" referrerPolicy="no-referrer" />
-            <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-brand-ink/40 transition-colors duration-500"></div>
-            <div className="absolute bottom-12 left-12 text-white">
-              <h3 className="text-4xl font-display font-bold uppercase tracking-tight mb-4">Jewellery</h3>
-              <Link to="/shop?category=Jewellery" className="inline-flex items-center gap-3 text-[10px] font-bold tracking-[0.3em] uppercase hover:gap-5 transition-all">
-                EXPLORE <ArrowRight size={14} />
-              </Link>
+          {categories.slice(0, 4).map((cat, idx) => (
+            <motion.div 
+              key={cat.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              className={`${idx === 0 || idx === 3 ? 'md:col-span-7' : 'md:col-span-5'} relative group aspect-[16/10] md:aspect-auto overflow-hidden rounded-[3rem] shadow-2xl shadow-black/5 min-h-[400px]`}
+            >
+              <img 
+                src={`https://picsum.photos/seed/${cat.name.toLowerCase()}/1200/800`} 
+                alt={cat.name} 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+                referrerPolicy="no-referrer" 
+              />
+              <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-brand-ink/40 transition-colors duration-500"></div>
+              <div className="absolute bottom-12 left-12 text-white">
+                <h3 className="text-4xl font-display font-bold uppercase tracking-tight mb-4">{cat.name}</h3>
+                <Link to={`/shop?category=${cat.name}`} className="inline-flex items-center gap-3 text-[10px] font-bold tracking-[0.3em] uppercase hover:gap-5 transition-all">
+                  EXPLORE <ArrowRight size={14} />
+                </Link>
+              </div>
+            </motion.div>
+          ))}
+          
+          {categories.length === 0 && (
+            <div className="col-span-full py-20 text-center bg-brand-beige/20 rounded-[3rem] border-2 border-dashed border-black/5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">No collections available</p>
             </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="md:col-span-5 relative group aspect-[4/5] overflow-hidden rounded-[3rem] shadow-2xl shadow-black/5"
-          >
-            <img src="https://picsum.photos/seed/women/800/1000" alt="Women" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" referrerPolicy="no-referrer" />
-            <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-brand-ink/40 transition-colors duration-500"></div>
-            <div className="absolute bottom-12 left-12 text-white">
-              <h3 className="text-4xl font-display font-bold uppercase tracking-tight mb-4">Women</h3>
-              <Link to="/shop?category=Women's Clothing" className="inline-flex items-center gap-3 text-[10px] font-bold tracking-[0.3em] uppercase hover:gap-5 transition-all">
-                EXPLORE <ArrowRight size={14} />
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="md:col-span-5 relative group aspect-[4/5] overflow-hidden rounded-[3rem] shadow-2xl shadow-black/5"
-          >
-            <img src="https://picsum.photos/seed/men/800/1000" alt="Men" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" referrerPolicy="no-referrer" />
-            <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-brand-ink/40 transition-colors duration-500"></div>
-            <div className="absolute bottom-12 left-12 text-white">
-              <h3 className="text-4xl font-display font-bold uppercase tracking-tight mb-4">Men</h3>
-              <Link to="/shop?category=Men's Clothing" className="inline-flex items-center gap-3 text-[10px] font-bold tracking-[0.3em] uppercase hover:gap-5 transition-all">
-                EXPLORE <ArrowRight size={14} />
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="md:col-span-7 relative group aspect-[16/10] overflow-hidden rounded-[3rem] shadow-2xl shadow-black/5"
-          >
-            <img src="https://picsum.photos/seed/kids/1200/800" alt="Kids" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" referrerPolicy="no-referrer" />
-            <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-brand-ink/40 transition-colors duration-500"></div>
-            <div className="absolute bottom-12 left-12 text-white">
-              <h3 className="text-4xl font-display font-bold uppercase tracking-tight mb-4">Kids</h3>
-              <Link to="/shop?category=Kids Clothing" className="inline-flex items-center gap-3 text-[10px] font-bold tracking-[0.3em] uppercase hover:gap-5 transition-all">
-                EXPLORE <ArrowRight size={14} />
-              </Link>
-            </div>
-          </motion.div>
+          )}
         </div>
       </section>
 
@@ -204,10 +179,10 @@ const Home: React.FC = () => {
                 <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">New Arrivals</span>
                 <div className="h-px w-20 bg-brand-gold/30"></div>
               </div>
-              <h2 className="text-6xl font-display font-bold uppercase tracking-tighter">Latest Products</h2>
+              <h2 className="text-6xl font-display font-bold uppercase tracking-tighter">Latest Pieces</h2>
             </div>
             <Link to="/shop" className="premium-button-outline px-10 h-14 flex items-center justify-center text-[10px] tracking-[0.2em]">
-              VIEW ALL COLLECTIONS
+              VIEW ALL ARCHIVE
             </Link>
           </div>
 
