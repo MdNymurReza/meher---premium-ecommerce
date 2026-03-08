@@ -82,7 +82,7 @@ const Shop: React.FC = () => {
                 <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">The Archive</span>
                 <div className="h-px w-20 bg-brand-gold/30"></div>
               </div>
-              <h1 className="text-7xl lg:text-8xl font-display font-bold uppercase tracking-tighter leading-[0.85]">
+              <h1 className="text-5xl lg:text-8xl font-display font-bold uppercase tracking-tighter leading-[0.85] break-words max-w-full">
                 {category === 'All' ? 'Our' : category} <br /> 
                 <span className="text-brand-gold italic font-serif lowercase tracking-normal">Collection</span>
               </h1>

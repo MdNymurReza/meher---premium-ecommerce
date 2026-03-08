@@ -70,7 +70,7 @@ const Home: React.FC = () => {
               <span className="text-brand-gold font-bold tracking-[0.5em] uppercase text-[8px] lg:text-[10px]">Est. 2026 — Dhaka</span>
               <div className="h-px w-12 bg-brand-gold/30"></div>
             </div>
-            <h1 className="text-[15vw] lg:text-[8vw] font-display font-bold leading-[0.85] text-brand-ink uppercase tracking-tighter mb-12 break-words">
+            <h1 className="text-[12vw] lg:text-[8vw] font-display font-bold leading-[0.85] text-brand-ink uppercase tracking-tighter mb-12 break-words max-w-full">
               {settings.heroHeading.split(' ')[0]} <br /> <span className="text-brand-gold italic font-serif lowercase tracking-normal ml-[2vw]">{settings.heroHeading.split(' ').slice(1).join(' ')}</span>
             </h1>
             <p className="text-lg lg:text-xl text-brand-ink/60 max-w-md leading-relaxed font-light mb-12">
@@ -90,7 +90,7 @@ const Home: React.FC = () => {
           </motion.div>
           
           {/* Background Text Accent */}
-          <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[30vw] font-display font-bold text-brand-ink/[0.02] pointer-events-none select-none whitespace-nowrap">
+          <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[25vw] lg:text-[30vw] font-display font-bold text-brand-ink/[0.02] pointer-events-none select-none whitespace-nowrap z-0">
             {settings.heroHeading.toUpperCase()}
           </div>
         </div>
@@ -166,7 +166,7 @@ const Home: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className={`${idx === 0 || idx === 3 ? 'md:col-span-7' : 'md:col-span-5'} relative group aspect-[16/10] md:aspect-auto overflow-hidden rounded-[2rem] lg:rounded-[3rem] shadow-2xl shadow-black/5 min-h-[300px] lg:min-h-[400px]`}
+              className={`${idx === 0 || idx === 3 ? 'md:col-span-7' : 'md:col-span-5'} relative group aspect-[16/10] md:aspect-auto overflow-hidden rounded-[1.5rem] lg:rounded-[3rem] shadow-2xl shadow-black/5 min-h-[300px] lg:min-h-[400px]`}
             >
               <img 
                 src={`https://picsum.photos/seed/${cat.name.toLowerCase()}/1200/800`} 

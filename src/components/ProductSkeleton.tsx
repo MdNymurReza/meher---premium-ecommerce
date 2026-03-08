@@ -4,7 +4,7 @@ const ProductSkeleton: React.FC = () => {
   return (
     <div className="animate-pulse">
       {/* Image Skeleton */}
-      <div className="aspect-[3/4] bg-brand-beige/40 rounded-[2.5rem] mb-8 shadow-xl shadow-black/5"></div>
+      <div className="aspect-[3/4] bg-brand-beige/40 rounded-[1.5rem] lg:rounded-[2.5rem] mb-8 shadow-xl shadow-black/5"></div>
       
       {/* Content Skeleton */}
       <div className="px-2">

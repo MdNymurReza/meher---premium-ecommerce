@@ -39,9 +39,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="group relative"
+      className="group relative w-full overflow-hidden"
     >
-      <Link to={`/product/${product.id}`} className="block relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-brand-beige/30 shadow-xl shadow-black/5">
+      <Link to={`/product/${product.id}`} className="block relative aspect-[3/4] overflow-hidden rounded-[1.5rem] lg:rounded-[2.5rem] bg-brand-beige/30 shadow-xl shadow-black/5">
         <img 
           src={(product.images && product.images[0]) ? product.images[0] : 'https://picsum.photos/400/600'} 
           alt={product.name}
@@ -78,14 +78,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </button>
 
         {/* View Details Button */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-4rem)] translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 ease-[0.16, 1, 0.3, 1]">
-          <div className="bg-white/95 backdrop-blur-xl p-5 rounded-3xl shadow-2xl flex items-center justify-between">
+        <div className="absolute bottom-6 lg:bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] lg:w-[calc(100%-4rem)] translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 ease-[0.16, 1, 0.3, 1]">
+          <div className="bg-white/95 backdrop-blur-xl p-3 lg:p-5 rounded-2xl lg:rounded-3xl shadow-2xl flex items-center justify-between">
             <div className="flex flex-col">
-              <span className="text-[8px] font-bold uppercase tracking-widest text-brand-ink/30 mb-1">View Piece</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-brand-ink">Details</span>
+              <span className="text-[7px] lg:text-[8px] font-bold uppercase tracking-widest text-brand-ink/30 mb-0.5 lg:mb-1">View Piece</span>
+              <span className="text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-brand-ink">Details</span>
             </div>
-            <div className="w-10 h-10 rounded-2xl bg-brand-ink text-white flex items-center justify-center">
-              <ArrowUpRight size={18} />
+            <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl lg:rounded-2xl bg-brand-ink text-white flex items-center justify-center">
+              <ArrowUpRight size={16} className="lg:hidden" />
+              <ArrowUpRight size={18} className="hidden lg:block" />
             </div>
           </div>
         </div>
