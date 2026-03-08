@@ -17,6 +17,7 @@ const AdminProducts: React.FC = () => {
   const [sizesInput, setSizesInput] = useState('');
   const [colorsInput, setColorsInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [imageUrlInput, setImageUrlInput] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -101,6 +102,7 @@ const AdminProducts: React.FC = () => {
       });
       setSizesInput('');
       setColorsInput('');
+      setImageUrlInput('');
       fetchProducts();
     } catch (error) {
       console.error("Error saving product:", error);
@@ -129,6 +131,13 @@ const AdminProducts: React.FC = () => {
     setSizesInput(product.sizes.join(', '));
     setColorsInput(product.colors.join(', '));
     setIsModalOpen(true);
+  };
+
+  const handleAddImageUrl = () => {
+    if (imageUrlInput.trim()) {
+      setFormData(prev => ({ ...prev, images: [...prev.images, imageUrlInput.trim()] }));
+      setImageUrlInput('');
+    }
   };
 
   const filteredProducts = products.filter(p => 
@@ -168,6 +177,7 @@ const AdminProducts: React.FC = () => {
                   });
                   setSizesInput('');
                   setColorsInput('');
+                  setImageUrlInput('');
                   setIsModalOpen(true);
                 }}
                 className="premium-button-primary flex items-center gap-3 px-8 h-14 text-[10px] tracking-[0.2em]"
@@ -348,6 +358,26 @@ const AdminProducts: React.FC = () => {
                         </label>
                       </div>
                       {isUploading && <p className="text-[10px] font-bold text-brand-gold animate-pulse uppercase tracking-widest">Processing Upload...</p>}
+                      
+                      <div className="mt-6">
+                        <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Or Add Image URL</label>
+                        <div className="flex gap-3">
+                          <input 
+                            type="text" 
+                            className="flex-grow bg-brand-beige/20 border-none rounded-2xl px-6 py-4 text-[10px] font-bold outline-none focus:ring-2 focus:ring-brand-gold/20 transition-all placeholder:text-brand-ink/20" 
+                            placeholder="HTTPS://CLOUDINARY.COM/IMAGE.JPG"
+                            value={imageUrlInput}
+                            onChange={(e) => setImageUrlInput(e.target.value)}
+                          />
+                          <button 
+                            type="button"
+                            onClick={handleAddImageUrl}
+                            className="bg-brand-ink text-white px-6 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand-gold transition-colors"
+                          >
+                            Add
+                          </button>
+                        </div>
+                      </div>
                     </div>
 
                     <div>
