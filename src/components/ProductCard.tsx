@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart, ShoppingCart, Star, ArrowUpRight } from 'lucide-react';
 import { Product } from '../types';
 import { useCart } from '../contexts/CartContext';
@@ -15,12 +15,16 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
   const { profile, user } = useAuth();
+  const navigate = useNavigate();
   
   const isWishlisted = profile?.wishlist?.includes(product.id);
 
   const toggleWishlist = async (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user) {
+      navigate('/login');
+      return;
+    }
 
     const userRef = doc(db, 'users', user.uid);
     try {

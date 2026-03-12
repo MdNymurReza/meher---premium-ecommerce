@@ -39,20 +39,16 @@ const Wishlist: React.FC = () => {
 
   if (products.length === 0) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center px-4">
-        <motion.div 
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="w-32 h-32 bg-brand-beige/50 rounded-full flex items-center justify-center mb-10 shadow-2xl shadow-black/5"
-        >
-          <Heart size={48} className="text-brand-ink/10" strokeWidth={1} />
-        </motion.div>
-        <h1 className="text-4xl font-display font-bold uppercase tracking-tighter mb-4 text-center">Your wishlist is empty</h1>
-        <p className="text-brand-ink/40 mb-12 max-w-md text-center text-[10px] font-bold uppercase tracking-widest leading-loose">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
+        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+          <Heart size={32} className="text-gray-300" />
+        </div>
+        <h1 className="text-2xl font-bold mb-2">Your wishlist is empty</h1>
+        <p className="text-gray-500 mb-8 max-w-md text-center">
           Save items you love to your wishlist and they'll appear here for your future consideration.
         </p>
-        <Link to="/shop" className="premium-button-primary px-12 h-16 text-[10px] tracking-[0.3em]">
-          EXPLORE COLLECTION
+        <Link to="/shop" className="bg-brand-ink text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+          Continue Shopping
         </Link>
       </div>
     );
@@ -60,29 +56,19 @@ const Wishlist: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="mb-20">
-        <div className="flex items-baseline gap-4 mb-4">
-          <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs">Curated Selection</span>
-          <div className="h-px flex-grow bg-black/5"></div>
+      <div className="flex justify-between items-end mb-12">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">My Wishlist</h1>
+          <p className="text-gray-500">Items you've saved for later</p>
         </div>
-        <div className="flex justify-between items-end">
-          <h1 className="text-7xl font-display font-bold uppercase tracking-tighter">Your Wishlist</h1>
-          <Link to="/shop" className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold hover:gap-5 transition-all">
-            CONTINUE SHOPPING <ArrowRight size={16} strokeWidth={2} />
-          </Link>
-        </div>
+        <Link to="/shop" className="flex items-center gap-2 text-brand-ink font-medium hover:underline">
+          Continue Shopping <ArrowRight size={18} />
+        </Link>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-        {products.map((product, idx) => (
-          <motion.div
-            key={product.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.1 }}
-          >
-            <ProductCard product={product} />
-          </motion.div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>

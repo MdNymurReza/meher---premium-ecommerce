@@ -19,42 +19,41 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-black/5">
+    <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-24 items-center">
+        <div className="flex justify-between h-20 items-center">
           {/* Desktop Menu Left */}
-          <div className="hidden md:flex items-center space-x-10">
-            <Link to="/shop" className="text-[10px] font-bold tracking-[0.3em] hover:text-brand-gold transition-colors uppercase">The Collection</Link>
-            <Link to="/shop?category=Jewellery" className="text-[10px] font-bold tracking-[0.3em] hover:text-brand-gold transition-colors uppercase">Jewellery</Link>
+          <div className="hidden md:flex items-center space-x-8">
+            <Link to="/shop" className="text-sm font-medium text-gray-700 hover:text-brand-ink transition-colors">Shop All</Link>
+            <Link to="/shop?category=Jewellery" className="text-sm font-medium text-gray-700 hover:text-brand-ink transition-colors">Jewellery</Link>
           </div>
 
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 flex flex-col items-center px-2">
-            <span className="text-2xl md:text-3xl font-display font-bold tracking-tighter text-brand-ink leading-none">MEHER</span>
-            <span className="text-[6px] md:text-[8px] font-bold tracking-[0.5em] text-brand-gold uppercase mt-1">Mala</span>
+            <span className="text-2xl font-bold tracking-tight text-brand-ink">MEHER MALA</span>
           </Link>
  
           {/* Desktop Menu Right */}
-          <div className="hidden md:flex items-center space-x-8">
-            <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center space-x-6">
+            <div className="flex items-center gap-1">
               {isAdmin && (
-                <Link to="/admin" className="p-2 hover:text-brand-gold transition-colors" title="Admin Dashboard">
-                  <LayoutDashboard size={18} strokeWidth={1.5} />
+                <Link to="/admin" className="p-2 text-gray-600 hover:text-brand-ink transition-colors" title="Admin Dashboard">
+                  <LayoutDashboard size={20} />
                 </Link>
               )}
-              <Link to="/wishlist" className="p-2 hover:text-brand-gold transition-colors">
-                <Heart size={18} strokeWidth={1.5} />
+              <Link to="/wishlist" className="p-2 text-gray-600 hover:text-brand-ink transition-colors">
+                <Heart size={20} />
               </Link>
-              <Link to="/cart" className="p-2 hover:text-brand-gold transition-colors relative">
-                <ShoppingCart size={18} strokeWidth={1.5} />
+              <Link to="/cart" className="p-2 text-gray-600 hover:text-brand-ink transition-colors relative">
+                <ShoppingCart size={20} />
                 <AnimatePresence>
                   {totalItems > 0 && (
                     <motion.span 
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
                       key={totalItems}
-                      className="absolute top-1 right-1 bg-brand-gold text-white text-[8px] font-bold w-4 h-4 flex items-center justify-center rounded-full"
+                      className="absolute top-1 right-1 bg-brand-ink text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full"
                     >
                       {totalItems}
                     </motion.span>
@@ -62,16 +61,16 @@ const Navbar: React.FC = () => {
                 </AnimatePresence>
               </Link>
               {user ? (
-                <div className="flex items-center gap-2">
-                  <Link to="/profile" className="p-2 hover:text-brand-gold transition-colors">
-                    <User size={18} strokeWidth={1.5} />
+                <div className="flex items-center gap-1">
+                  <Link to="/profile" className="p-2 text-gray-600 hover:text-brand-ink transition-colors">
+                    <User size={20} />
                   </Link>
-                  <button onClick={handleLogout} className="p-2 hover:text-rose-500 transition-colors">
-                    <LogOut size={18} strokeWidth={1.5} />
+                  <button onClick={handleLogout} className="p-2 text-gray-600 hover:text-rose-500 transition-colors">
+                    <LogOut size={20} />
                   </button>
                 </div>
               ) : (
-                <Link to="/login" className="text-[10px] font-bold tracking-[0.3em] hover:text-brand-gold transition-colors uppercase ml-4">Login</Link>
+                <Link to="/login" className="text-sm font-medium text-gray-700 hover:text-brand-ink transition-colors ml-4">Login</Link>
               )}
             </div>
           </div>

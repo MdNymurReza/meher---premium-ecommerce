@@ -4,29 +4,28 @@ import { Instagram, Facebook, Twitter } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-brand-ink text-white pt-24 pb-12">
+    <footer className="bg-gray-900 text-white pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
-          <div className="md:col-span-5 space-y-8">
-            <Link to="/" className="flex flex-col">
-              <span className="text-4xl font-display font-bold tracking-tighter leading-none">MEHER</span>
-              <span className="text-[10px] font-bold tracking-[0.6em] text-brand-gold uppercase mt-2">Mala — Archive</span>
+          <div className="space-y-6">
+            <Link to="/" className="text-2xl font-bold tracking-tight">
+              MEHER MALA
             </Link>
-            <p className="text-white/40 text-sm leading-relaxed max-w-sm font-light">
-              Crafting timeless elegance for the modern soul. Our collections are a testament to heritage, blending traditional craftsmanship with contemporary vision.
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Handcrafted jewellery and premium apparel for the modern soul. Quality and elegance in every piece.
             </p>
-            <div className="flex space-x-6">
-              <a href="#" className="text-white/40 hover:text-brand-gold transition-colors"><Instagram size={18} strokeWidth={1.5} /></a>
-              <a href="#" className="text-white/40 hover:text-brand-gold transition-colors"><Facebook size={18} strokeWidth={1.5} /></a>
-              <a href="#" className="text-white/40 hover:text-brand-gold transition-colors"><Twitter size={18} strokeWidth={1.5} /></a>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><Instagram size={20} /></a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><Facebook size={20} /></a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><Twitter size={20} /></a>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="md:col-span-2">
-            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold mb-8">Collections</h3>
-            <ul className="space-y-4 text-white/40 text-xs font-medium tracking-widest uppercase">
+          <div>
+            <h3 className="text-sm font-bold uppercase tracking-wider mb-6">Shop</h3>
+            <ul className="space-y-3 text-gray-400 text-sm">
               <li><Link to="/shop?category=Jewellery" className="hover:text-white transition-colors">Jewellery</Link></li>
               <li><Link to="/shop?category=Women's Clothing" className="hover:text-white transition-colors">Women's</Link></li>
               <li><Link to="/shop?category=Men's Clothing" className="hover:text-white transition-colors">Men's</Link></li>
@@ -35,27 +34,27 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Customer Service */}
-          <div className="md:col-span-2">
-            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold mb-8">Service</h3>
-            <ul className="space-y-4 text-white/40 text-xs font-medium tracking-widest uppercase">
-              <li><Link to="/profile" className="hover:text-white transition-colors">Account</Link></li>
-              <li><Link to="/cart" className="hover:text-white transition-colors">Shipping</Link></li>
-              <li><Link to="/cart" className="hover:text-white transition-colors">Returns</Link></li>
-              <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy</Link></li>
+          <div>
+            <h3 className="text-sm font-bold uppercase tracking-wider mb-6">Support</h3>
+            <ul className="space-y-3 text-gray-400 text-sm">
+              <li><Link to="/profile" className="hover:text-white transition-colors">My Account</Link></li>
+              <li><Link to="/cart" className="hover:text-white transition-colors">Shipping Info</Link></li>
+              <li><Link to="/cart" className="hover:text-white transition-colors">Returns & Exchanges</Link></li>
+              <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
 
           {/* Newsletter */}
-          <div className="md:col-span-3">
-            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold mb-8">Stay Informed</h3>
-            <p className="text-white/40 text-xs mb-6 leading-relaxed">Join our inner circle for exclusive previews and archival updates.</p>
+          <div>
+            <h3 className="text-sm font-bold uppercase tracking-wider mb-6">Newsletter</h3>
+            <p className="text-gray-400 text-sm mb-4">Subscribe to get special offers and updates.</p>
             <form 
-              className="relative"
+              className="flex gap-2"
               onSubmit={(e) => {
                 e.preventDefault();
                 const email = (e.target as any).email.value;
                 if (email) {
-                  alert(`Thank you! ${email} has been added to our archive list.`);
+                  alert(`Thank you! ${email} has been subscribed.`);
                   (e.target as any).reset();
                 }
               }}
@@ -64,22 +63,21 @@ const Footer: React.FC = () => {
                 type="email" 
                 name="email"
                 required
-                placeholder="EMAIL ADDRESS" 
-                className="bg-transparent border-b border-white/10 w-full py-3 text-[10px] font-bold tracking-widest outline-none focus:border-brand-gold transition-colors placeholder:text-white/20"
+                placeholder="Email address" 
+                className="bg-gray-800 border-none rounded-lg w-full py-2 px-4 text-sm outline-none focus:ring-1 focus:ring-gray-700 transition-all"
               />
-              <button type="submit" className="absolute right-0 top-1/2 -translate-y-1/2 text-[10px] font-bold tracking-widest text-brand-gold hover:text-white transition-colors">
-                SIGN UP
+              <button type="submit" className="bg-white text-gray-900 px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-200 transition-colors">
+                JOIN
               </button>
             </form>
           </div>
         </div>
 
-        <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-white/20 text-[10px] font-bold tracking-[0.2em] uppercase">
-          <p>&copy; {new Date().getFullYear()} MEHER MALA. ALL RIGHTS RESERVED.</p>
-          <div className="flex gap-8">
+        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 text-xs">
+          <p>&copy; {new Date().getFullYear()} MEHER MALA. All rights reserved.</p>
+          <div className="flex gap-6">
             <Link to="/terms" className="hover:text-white transition-colors">Terms</Link>
             <Link to="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-            <a href="#" className="hover:text-white transition-colors">Cookies</a>
           </div>
         </div>
       </div>

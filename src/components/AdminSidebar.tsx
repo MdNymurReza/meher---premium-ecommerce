@@ -12,7 +12,7 @@ const AdminSidebar: React.FC = () => {
     { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
     { name: 'Discounts', path: '/admin/discounts', icon: Tag },
     { name: 'Customers', path: '/admin/customers', icon: Users },
-    { name: 'Settings', path: '/admin/settings', icon: Settings },
+    // { name: 'Settings', path: '/admin/settings', icon: Settings },
   ];
 
   return (
@@ -20,16 +20,16 @@ const AdminSidebar: React.FC = () => {
       <div className="p-10 flex-grow">
         <Link to="/" className="flex items-center gap-3 text-brand-ink/30 hover:text-brand-ink transition-all mb-16 group">
           <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> 
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Storefront</span>
+          <span className="text-[15px] font-bold uppercase tracking-[0.3em]">Storefront</span>
         </Link>
         
         <div className="flex flex-col mb-20">
-          <span className="text-3xl font-display font-bold tracking-tighter text-brand-ink leading-none">MEHER</span>
+          <span className="text-3xl font-display font-bold tracking-tighter text-brand-ink leading-none">MEHER-MALA</span>
           <span className="text-[8px] font-bold tracking-[0.5em] text-brand-gold uppercase mt-2">Management Console</span>
         </div>
         
         <nav className="space-y-4">
-          <p className="text-[8px] font-bold uppercase tracking-[0.4em] text-brand-ink/20 mb-6 ml-6">Main Menu</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-ink/20 mb-6 ml-6">Admin Panel</p>
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;

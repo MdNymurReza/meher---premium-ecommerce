@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton from '../components/ProductSkeleton';
 import { Filter, X, ChevronDown, Search, SlidersHorizontal } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
 
 const Shop: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -45,7 +44,6 @@ const Shop: React.FC = () => {
         const querySnapshot = await getDocs(q);
         let productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
 
-        // Client-side filtering for search
         if (searchQuery) {
           productsData = productsData.filter(p => 
             p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -53,7 +51,6 @@ const Shop: React.FC = () => {
           );
         }
 
-        // Client-side sorting
         if (sortBy === 'price-low') {
           productsData.sort((a, b) => a.price - b.price);
         } else if (sortBy === 'price-high') {
@@ -72,140 +69,113 @@ const Shop: React.FC = () => {
   }, [category, sortBy, searchQuery]);
 
   return (
-    <div className="bg-brand-paper min-h-screen pb-32">
-      {/* Header Section */}
-      <section className="pt-32 pb-20 border-b border-black/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end gap-12">
-            <div className="max-w-2xl">
-              <div className="flex items-baseline gap-4 mb-4">
-                <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">The Archive</span>
-                <div className="h-px w-20 bg-brand-gold/30"></div>
-              </div>
-              <h1 className="text-5xl lg:text-8xl font-display font-bold uppercase tracking-tighter leading-[0.85] break-words max-w-full">
-                {category === 'All' ? 'Our' : category} <br /> 
-                <span className="text-brand-gold italic font-serif lowercase tracking-normal">Collection</span>
-              </h1>
-            </div>
-            <div className="flex flex-col items-end gap-6 w-full md:w-auto">
-              <div className="relative w-full md:w-80">
-                <input 
-                  type="text" 
-                  placeholder="SEARCH ARCHIVE..."
-                  className="w-full bg-brand-beige/30 border-none rounded-2xl px-6 py-4 text-[10px] font-bold tracking-widest outline-none focus:ring-2 focus:ring-brand-gold/20 transition-all placeholder:text-brand-ink/20"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <Search size={14} className="absolute right-6 top-1/2 -translate-y-1/2 text-brand-ink/20" />
-              </div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/30">Showing {products.length} unique pieces</p>
-            </div>
-          </div>
+    <div className="bg-white min-h-screen pt-24 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2">
+            {category === 'All' ? 'All Products' : category}
+          </h1>
+          <p className="text-gray-500 text-sm">
+            Showing {products.length} products
+          </p>
         </div>
-      </section>
 
-      {/* Toolbar */}
-      <div className="sticky top-20 z-30 bg-brand-paper/80 backdrop-blur-xl border-b border-black/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-8 overflow-x-auto no-scrollbar py-4">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setSearchParams({ category: cat, sort: sortBy })}
-                className={`text-[10px] font-bold uppercase tracking-[0.2em] whitespace-nowrap transition-all relative py-2 ${category === cat ? 'text-brand-ink' : 'text-brand-ink/30 hover:text-brand-ink'}`}
-              >
-                {cat}
-                {category === cat && (
-                  <motion.div layoutId="activeCat" className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-gold" />
-                )}
-              </button>
-            ))}
-          </div>
-          
-          <div className="flex items-center gap-6">
-            <div className="relative group">
-              <select 
-                value={sortBy}
-                onChange={(e) => setSearchParams({ category, sort: e.target.value })}
-                className="appearance-none bg-transparent text-[10px] font-bold uppercase tracking-[0.2em] pr-8 outline-none cursor-pointer"
-              >
-                <option value="newest">Newest First</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-              </select>
-              <ChevronDown size={12} className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-brand-ink/30" />
+        {/* Toolbar */}
+        <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100">
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="relative flex-grow md:w-64">
+              <input 
+                type="text" 
+                placeholder="Search products..."
+                className="w-full bg-white border border-gray-200 rounded-lg px-10 py-2 text-sm outline-none focus:border-brand-ink transition-all"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
             </div>
             <button 
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] bg-brand-ink text-white px-6 py-3 rounded-full hover:bg-brand-gold transition-colors"
+              className="md:hidden flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-lg text-sm font-medium"
             >
-              <SlidersHorizontal size={14} /> Filters
+              <Filter size={16} /> Filters
             </button>
           </div>
-        </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
-        <div className="flex gap-16">
-          {/* Side Filters - Desktop */}
-          <aside className="hidden lg:block w-64 space-y-12">
-            <div>
-              <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30 mb-8">Refine By</h3>
-              <div className="space-y-6">
-                <div className="space-y-4">
-                  <h4 className="text-xs font-bold uppercase tracking-widest">Price Range</h4>
-                  <div className="space-y-3">
-                    {['Under ৳1000', '৳1000 - ৳5000', '৳5000 - ৳10000', 'Over ৳10000'].map(range => (
-                      <label key={range} className="flex items-center gap-3 cursor-pointer group">
-                        <div className="w-4 h-4 rounded border border-black/10 flex items-center justify-center group-hover:border-brand-gold transition-colors">
-                          <div className="w-2 h-2 bg-brand-gold rounded-sm opacity-0 group-hover:opacity-20 transition-opacity"></div>
-                        </div>
-                        <span className="text-xs font-medium text-brand-ink/60 group-hover:text-brand-ink transition-colors">{range}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-500 whitespace-nowrap">Sort by:</span>
+              <div className="relative">
+                <select 
+                  value={sortBy}
+                  onChange={(e) => setSearchParams({ category, sort: e.target.value })}
+                  className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-2 pr-10 text-sm font-medium outline-none cursor-pointer focus:border-brand-ink transition-all"
+                >
+                  <option value="newest">Newest First</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                </select>
+                <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400" />
               </div>
             </div>
-            
-            <div className="p-8 bg-brand-beige/30 rounded-[2rem] space-y-6">
-              <h4 className="text-xs font-bold uppercase tracking-widest">Need Help?</h4>
-              <p className="text-[10px] text-brand-ink/40 leading-relaxed font-medium">Our curators are available to assist you with your selection.</p>
-              <button className="text-[10px] font-bold uppercase tracking-widest text-brand-gold underline underline-offset-4">Contact Concierge</button>
+          </div>
+        </div>
+
+        <div className="flex gap-8">
+          {/* Sidebar Filters */}
+          <aside className="hidden md:block w-64 space-y-8">
+            <div>
+              <h3 className="font-bold text-sm uppercase tracking-wider mb-4">Categories</h3>
+              <div className="space-y-1">
+                {categories.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setSearchParams({ category: cat, sort: sortBy })}
+                    className={`block w-full text-left px-4 py-2 rounded-lg text-sm transition-all ${category === cat ? 'bg-brand-ink text-white font-bold' : 'hover:bg-gray-100 text-gray-600'}`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-sm uppercase tracking-wider mb-4">Price Range</h3>
+              <div className="space-y-2">
+                {['Under ৳1000', '৳1000 - ৳5000', '৳5000 - ৳10000', 'Over ৳10000'].map(range => (
+                  <label key={range} className="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-brand-ink focus:ring-brand-ink" />
+                    <span className="text-sm text-gray-600 group-hover:text-brand-ink transition-colors">{range}</span>
+                  </label>
+                ))}
+              </div>
             </div>
           </aside>
 
           {/* Product Grid */}
           <main className="flex-grow">
             {loading ? (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map(i => (
                   <ProductSkeleton key={i} />
                 ))}
               </div>
             ) : products.length === 0 ? (
-              <div className="text-center py-40 bg-brand-beige/20 rounded-[3rem] border-2 border-dashed border-black/5">
-                <Search size={48} className="mx-auto text-brand-ink/10 mb-6" strokeWidth={1} />
-                <h3 className="text-2xl font-display font-bold uppercase tracking-tight mb-4">No pieces found</h3>
-                <p className="text-brand-ink/40 text-sm font-light mb-8">Try adjusting your search or filters to find what you're looking for.</p>
+              <div className="text-center py-20 bg-gray-50 rounded-xl">
+                <Search size={48} className="mx-auto text-gray-300 mb-4" />
+                <h3 className="text-xl font-bold mb-2">No products found</h3>
+                <p className="text-gray-500 mb-6">Try adjusting your search or filters</p>
                 <button 
                   onClick={() => { setSearchQuery(''); setSearchParams({ category: 'All', sort: 'newest' }); }}
-                  className="premium-button-outline px-10 h-14 text-[10px] tracking-[0.2em]"
+                  className="bg-brand-ink text-white px-6 py-2 rounded-lg text-sm font-bold"
                 >
-                  CLEAR ALL FILTERS
+                  Clear All Filters
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-10">
-                {products.map((product, idx) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                  >
-                    <ProductCard product={product} />
-                  </motion.div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.map(product => (
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             )}
@@ -214,76 +184,41 @@ const Shop: React.FC = () => {
       </div>
 
       {/* Mobile Filters Modal */}
-      <AnimatePresence>
-        {showFilters && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowFilters(false)}
-              className="fixed inset-0 bg-brand-ink/40 backdrop-blur-sm z-[60]"
-            />
-            <motion.div 
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed right-0 top-0 h-full w-full max-w-md bg-brand-paper z-[70] shadow-2xl p-12"
-            >
-              <div className="flex justify-between items-center mb-16">
-                <h2 className="text-3xl font-display font-bold uppercase tracking-tighter">Filters</h2>
-                <button onClick={() => setShowFilters(false)} className="p-2 hover:bg-brand-beige rounded-full transition-colors">
-                  <X size={24} />
-                </button>
-              </div>
-              
-              <div className="space-y-12">
-                <div className="space-y-6">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Categories</h3>
-                  <div className="flex flex-wrap gap-3">
-                    {categories.map(cat => (
-                      <button
-                        key={cat}
-                        onClick={() => { setSearchParams({ category: cat, sort: sortBy }); setShowFilters(false); }}
-                        className={`px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all ${category === cat ? 'bg-brand-ink text-white border-brand-ink' : 'border-black/5 hover:border-brand-gold'}`}
-                      >
-                        {cat}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="space-y-6">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Sort By</h3>
-                  <div className="space-y-4">
-                    {[
-                      { label: 'Newest First', value: 'newest' },
-                      { label: 'Price: Low to High', value: 'price-low' },
-                      { label: 'Price: High to Low', value: 'price-high' }
-                    ].map(option => (
-                      <button
-                        key={option.value}
-                        onClick={() => { setSearchParams({ category, sort: option.value }); setShowFilters(false); }}
-                        className={`w-full text-left py-4 border-b border-black/5 text-xs font-bold uppercase tracking-widest transition-colors ${sortBy === option.value ? 'text-brand-gold' : 'text-brand-ink/60 hover:text-brand-ink'}`}
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
+      {showFilters && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowFilters(false)}></div>
+          <div className="absolute right-0 top-0 h-full w-80 bg-white shadow-xl p-6 overflow-y-auto">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-xl font-bold">Filters</h2>
+              <button onClick={() => setShowFilters(false)}><X size={24} /></button>
+            </div>
+            
+            <div className="space-y-8">
+              <div>
+                <h3 className="font-bold text-sm uppercase tracking-wider mb-4">Categories</h3>
+                <div className="grid grid-cols-1 gap-2">
+                  {categories.map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => { setSearchParams({ category: cat, sort: sortBy }); setShowFilters(false); }}
+                      className={`px-4 py-2 rounded-lg text-sm text-left ${category === cat ? 'bg-brand-ink text-white font-bold' : 'bg-gray-100'}`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
                 </div>
               </div>
               
               <button 
                 onClick={() => setShowFilters(false)}
-                className="absolute bottom-12 left-12 right-12 premium-button-primary h-16 text-[10px] tracking-[0.3em]"
+                className="w-full bg-brand-ink text-white py-3 rounded-lg font-bold mt-8"
               >
-                APPLY FILTERS
+                Apply Filters
               </button>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

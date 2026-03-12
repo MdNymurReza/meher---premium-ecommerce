@@ -6,17 +6,17 @@ import { Product, SiteSettings } from '../types';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton from '../components/ProductSkeleton';
 import { motion } from 'motion/react';
-import { ArrowRight, Play, Sparkles } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Star, Shield, Truck } from 'lucide-react';
 
 const Home: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [settings, setSettings] = useState<SiteSettings>({
-    heroImage: 'https://picsum.photos/seed/luxury-vibe/1200/1600',
+    heroImage: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=2000',
     heroHeading: 'Meher Mala',
     heroSubheading: 'A sanctuary of timeless elegance. Handcrafted jewellery and premium apparel for the discerning soul.',
     marqueeText: ['Handcrafted Excellence', 'Premium Materials', 'Timeless Design'],
-    brandStoryImage: 'https://picsum.photos/seed/craft/1000/1250',
+    brandStoryImage: 'https://images.unsplash.com/photo-1573408302185-912757078a7b?auto=format&fit=crop&q=80&w=1000',
     updatedAt: null
   });
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,7 @@ const Home: React.FC = () => {
     fetchCategories();
 
     const fetchProducts = async () => {
-      const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(4));
+      const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(8));
       const querySnapshot = await getDocs(q);
       const products = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
       setFeaturedProducts(products);
@@ -56,77 +56,77 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-32 pb-32">
-      {/* Hero Section - Split Layout */}
-      <section className="relative min-h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
-        <div className="relative flex items-center justify-center p-6 lg:p-24 bg-brand-paper overflow-hidden">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-xl z-10 w-full"
-          >
-            <div className="flex items-center gap-4 mb-8">
-              <span className="text-brand-gold font-bold tracking-[0.5em] uppercase text-[8px] lg:text-[10px]">Est. 2026 — Dhaka</span>
-              <div className="h-px w-12 bg-brand-gold/30"></div>
-            </div>
-            <h1 className="text-[12vw] lg:text-[8vw] font-display font-bold leading-[0.85] text-brand-ink uppercase tracking-tighter mb-12 break-words max-w-full">
-              {settings.heroHeading.split(' ')[0]} <br /> <span className="text-brand-gold italic font-serif lowercase tracking-normal ml-[2vw]">{settings.heroHeading.split(' ').slice(1).join(' ')}</span>
-            </h1>
-            <p className="text-lg lg:text-xl text-brand-ink/60 max-w-md leading-relaxed font-light mb-12">
-              {settings.heroSubheading}
-            </p>
-            <div className="flex flex-wrap gap-6">
-              <Link to="/shop" className="premium-button-primary px-12 h-16 flex items-center justify-center text-[10px] tracking-[0.3em]">
-                EXPLORE COLLECTION
-              </Link>
-              <button className="flex items-center gap-4 group">
-                <div className="w-16 h-16 rounded-full border border-brand-ink/10 flex items-center justify-center group-hover:bg-brand-gold group-hover:border-brand-gold group-hover:text-white transition-all duration-500">
-                  <Play size={16} fill="currentColor" />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Watch Film</span>
-              </button>
-            </div>
-          </motion.div>
-          
-          {/* Background Text Accent */}
-          <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[25vw] lg:text-[30vw] font-display font-bold text-brand-ink/[0.02] pointer-events-none select-none whitespace-nowrap z-0">
-            {settings.heroHeading.toUpperCase()}
-          </div>
-        </div>
-        
-        <div className="relative h-[60vh] lg:h-screen overflow-hidden">
-          <motion.img 
-            initial={{ scale: 1.2, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+    <div className="bg-white">
+      {/* Hero Section */}
+      <section className="relative h-[70vh] flex items-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
             src={settings.heroImage} 
             alt="Hero" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-brand-ink/10"></div>
-          
-          {/* Floating Element */}
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-white">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 1 }}
-            className="absolute bottom-12 right-12 glass-card p-8 max-w-xs hidden md:block"
+            transition={{ duration: 0.8 }}
+            className="max-w-2xl"
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 rounded-full bg-brand-gold flex items-center justify-center text-white">
-                <Sparkles size={14} />
-              </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest">New Season</span>
-            </div>
-            <p className="text-sm font-light text-brand-ink/60 leading-relaxed">
-              Discover our latest handcrafted pieces, inspired by the heritage of Bengal.
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              {settings.heroHeading}
+            </h1>
+            <p className="text-lg md:text-xl mb-10 text-white/90">
+              {settings.heroSubheading}
             </p>
+            <div className="flex gap-4">
+              <Link to="/shop" className="bg-brand-ink text-white px-8 py-3 rounded-lg font-bold hover:bg-gray-800 transition-all flex items-center gap-2">
+                Shop Now <ShoppingBag size={18} />
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
 
+      {/* Features */}
+      <section className="py-12 bg-gray-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-brand-ink shadow-sm">
+                <Truck size={24} />
+              </div>
+              <div>
+                <h3 className="font-bold text-sm">Fast Shipping</h3>
+                <p className="text-xs text-gray-500">Global delivery to your doorstep</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-brand-ink shadow-sm">
+                <Shield size={24} />
+              </div>
+              <div>
+                <h3 className="font-bold text-sm">Secure Payment</h3>
+                <p className="text-xs text-gray-500">100% secure payment processing</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-brand-ink shadow-sm">
+                <Star size={24} />
+              </div>
+              <div>
+                <h3 className="font-bold text-sm">Premium Quality</h3>
+                <p className="text-xs text-gray-500">Handcrafted with the finest materials</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
       {/* Marquee - Refined */}
       <div className="w-full py-10 bg-brand-ink overflow-hidden whitespace-nowrap border-y border-white/5">
         <div className="flex animate-marquee">
@@ -143,135 +143,122 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Categories Grid - Bento Style */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
-          <div className="max-w-2xl">
-            <div className="flex items-baseline gap-4 mb-4">
-              <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">The Archive</span>
-              <div className="h-px w-20 bg-brand-gold/30"></div>
-            </div>
-            <h2 className="text-5xl lg:text-7xl font-display font-bold uppercase tracking-tighter leading-[0.9]">Curated <br /> Collections</h2>
+      {/* Categories */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-10">
+            <h2 className="text-3xl font-bold">Shop by Category</h2>
+            <p className="text-gray-500 mt-2">Explore our curated collections</p>
           </div>
-          <p className="text-brand-ink/40 text-sm max-w-xs font-light leading-relaxed">
-            Explore our meticulously crafted categories, each designed to elevate your personal style.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          {categories.slice(0, 4).map((cat, idx) => (
-            <motion.div 
-              key={cat.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className={`${idx === 0 || idx === 3 ? 'md:col-span-7' : 'md:col-span-5'} relative group aspect-[16/10] md:aspect-auto overflow-hidden rounded-[1.5rem] lg:rounded-[3rem] shadow-2xl shadow-black/5 min-h-[300px] lg:min-h-[400px]`}
-            >
-              <img 
-                src={`https://picsum.photos/seed/${cat.name.toLowerCase()}/1200/800`} 
-                alt={cat.name} 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
-                referrerPolicy="no-referrer" 
-              />
-              <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-brand-ink/40 transition-colors duration-500"></div>
-              <div className="absolute bottom-12 left-12 text-white">
-                <h3 className="text-4xl font-display font-bold uppercase tracking-tight mb-4">{cat.name}</h3>
-                <Link to={`/shop?category=${cat.name}`} className="inline-flex items-center gap-3 text-[10px] font-bold tracking-[0.3em] uppercase hover:gap-5 transition-all">
-                  EXPLORE <ArrowRight size={14} />
-                </Link>
-              </div>
-            </motion.div>
-          ))}
           
-          {categories.length === 0 && (
-            <div className="col-span-full py-20 text-center bg-brand-beige/20 rounded-[3rem] border-2 border-dashed border-black/5">
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">No collections available</p>
-            </div>
-          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {categories.map((cat) => (
+              <Link 
+                key={cat.id}
+                to={`/shop?category=${cat.name}`}
+                className="relative group overflow-hidden rounded-xl aspect-[4/5]"
+              >
+                <img 
+                  src={`https://picsum.photos/seed/${cat.name.toLowerCase()}/800/1000`} 
+                  alt={cat.name} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                  referrerPolicy="no-referrer" 
+                />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
+                <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                  <h3 className="text-xl font-bold mb-1">{cat.name}</h3>
+                  <span className="text-xs font-medium flex items-center gap-2">
+                    Explore <ArrowRight size={14} />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Featured Products - Horizontal Scroll / Grid */}
-      <section className="py-32 bg-brand-beige/30">
+      {/* Featured Products */}
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+          <div className="flex justify-between items-end mb-10">
             <div>
-              <div className="flex items-baseline gap-4 mb-4">
-                <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">New Arrivals</span>
-                <div className="h-px w-20 bg-brand-gold/30"></div>
-              </div>
-              <h2 className="text-5xl lg:text-6xl font-display font-bold uppercase tracking-tighter">Latest Pieces</h2>
+              <h2 className="text-3xl font-bold">Featured Products</h2>
+              <p className="text-gray-500 mt-2">Our most loved pieces, selected for you</p>
             </div>
-            <Link to="/shop" className="premium-button-outline px-10 h-14 flex items-center justify-center text-[10px] tracking-[0.2em]">
-              VIEW ALL ARCHIVE
+            <Link to="/shop" className="hidden sm:flex items-center gap-2 text-brand-ink font-bold hover:underline">
+              View All <ArrowRight size={18} />
             </Link>
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[1, 2, 3, 4].map(i => (
                 <ProductSkeleton key={i} />
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
-              {featuredProducts.map((product, idx) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <ProductCard product={product} />
-                </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredProducts.map(product => (
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}
+
+          <div className="mt-10 text-center sm:hidden">
+            <Link to="/shop" className="inline-flex items-center gap-2 text-brand-ink font-bold">
+              View All Products <ArrowRight size={18} />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Brand Story - Immersive */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
-          <div className="relative">
-            <div className="aspect-[4/5] rounded-[2rem] lg:rounded-[4rem] overflow-hidden shadow-2xl shadow-black/10">
+      {/* Brand Story */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <h2 className="text-4xl font-bold mb-6 leading-tight">
+                Our Story: <br />
+                <span className="text-gray-400">Crafted with Passion</span>
+              </h2>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                At Meher Mala, we believe that every piece tells a story. From the selection of the finest materials to the final finishing touches, our artisans pour their heart and soul into every creation.
+              </p>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                Our mission is to provide you with quality that is both accessible and sustainable, ensuring that you feel as good as you look.
+              </p>
+              <Link to="/shop" className="bg-brand-ink text-white px-8 py-3 rounded-lg font-bold hover:bg-gray-800 transition-all">
+                Learn More
+              </Link>
+            </div>
+            <div className="order-1 lg:order-2">
               <img 
                 src={settings.brandStoryImage} 
-                alt="Craftsmanship" 
-                className="w-full h-full object-cover"
+                alt="Brand Story" 
+                className="rounded-2xl shadow-lg w-full aspect-video object-cover"
                 referrerPolicy="no-referrer"
               />
             </div>
-            {/* Floating Detail Image */}
-            <motion.div 
-              initial={{ x: 50, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              className="absolute -bottom-16 -right-16 w-64 aspect-square rounded-[2rem] lg:rounded-[3rem] overflow-hidden shadow-2xl border-8 border-brand-paper hidden xl:block"
-            >
-              <img src="https://picsum.photos/seed/detail/500/500" alt="Detail" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-            </motion.div>
           </div>
-          <div className="space-y-8 lg:space-y-12">
-            <div className="flex items-baseline gap-4">
-              <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">Our Philosophy</span>
-              <div className="h-px flex-grow bg-brand-gold/30"></div>
-            </div>
-            <h2 className="text-6xl lg:text-8xl font-display font-bold uppercase tracking-tighter leading-[0.85]">Crafted <br /> with <span className="text-brand-gold italic font-serif lowercase tracking-normal">Soul</span></h2>
-            <div className="space-y-6">
-              <p className="text-lg lg:text-xl text-brand-ink/60 leading-relaxed font-light">
-                At Meher Mala, we believe that every piece tells a story. From the selection of the finest materials to the final finishing touches, our artisans pour their heart and soul into every creation.
-              </p>
-              <p className="text-lg lg:text-xl text-brand-ink/60 leading-relaxed font-light">
-                Our mission is to provide you with luxury that is both accessible and sustainable, ensuring that you feel as good as you look.
-              </p>
-            </div>
-            <Link to="/shop" className="inline-flex premium-button-primary px-16 h-20 items-center justify-center text-[10px] tracking-[0.3em]">
-              OUR STORY
-            </Link>
-          </div>
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="py-16 bg-brand-ink text-white">
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-4">Join Our Newsletter</h2>
+          <p className="text-white/60 mb-8">Subscribe to receive early access to new collections and exclusive offers.</p>
+          
+          <form className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+            <input 
+              type="email" 
+              placeholder="Your email address" 
+              className="flex-grow bg-white/10 border border-white/20 rounded-lg px-6 py-3 text-sm outline-none focus:border-white/40 transition-all"
+            />
+            <button className="bg-white text-brand-ink px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all">
+              SUBSCRIBE
+            </button>
+          </form>
         </div>
       </section>
     </div>
