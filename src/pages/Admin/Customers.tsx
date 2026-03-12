@@ -110,7 +110,7 @@ const AdminCustomers: React.FC = () => {
           </table>
           {filteredCustomers.length === 0 && !loading && (
             <div className="text-center py-32">
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">No members found in archive</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">No members found in DataBase</p>
             </div>
           )}
         </div>

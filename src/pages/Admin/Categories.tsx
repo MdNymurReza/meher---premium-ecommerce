@@ -113,7 +113,7 @@ const AdminCategories: React.FC = () => {
             {categories.length === 0 && (
               <div className="col-span-full py-40 text-center">
                 <Layers size={48} className="mx-auto text-brand-ink/10 mb-6" strokeWidth={1} />
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">No categories defined in archive</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">No categories defined</p>
               </div>
             )}
           </div>
@@ -159,7 +159,7 @@ const AdminCategories: React.FC = () => {
                     </div>
 
                     <button type="submit" className="w-full premium-button-primary h-16 text-[10px] tracking-[0.3em] mt-8">
-                      ADD TO ARCHIVE
+                      ADD NEW CATEGORY
                     </button>
                   </form>
                 </div>

@@ -40,7 +40,7 @@ const Register: React.FC = () => {
             <span className="text-4xl font-display font-bold tracking-tighter text-brand-ink leading-none">MEHER</span>
             <span className="text-[10px] font-bold tracking-[0.5em] text-brand-gold uppercase mt-2">Mala</span>
           </div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight mb-3">Create Archive</h1>
+          <h1 className="text-2xl font-bold uppercase tracking-tight mb-3">Create Account</h1>
           <p className="text-brand-ink/40 text-[10px] font-bold uppercase tracking-widest">Join our inner circle for exclusive access</p>
         </div>
 
@@ -52,7 +52,7 @@ const Register: React.FC = () => {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Full Name</label>
+            <label className="block text-[13px] font-bold uppercase tracking-[0.1em] text-brand-ink/40 mb-3">Full Name</label>
             <input 
               type="text" 
               required 
@@ -63,7 +63,7 @@ const Register: React.FC = () => {
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Email Address</label>
+            <label className="block text-[13px] font-bold uppercase tracking-[0.1em] text-brand-ink/40 mb-3">Email Address</label>
             <input 
               type="email" 
               required 
@@ -74,7 +74,7 @@ const Register: React.FC = () => {
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Password</label>
+            <label className="block text-[13px] font-bold uppercase tracking-[0.1em] text-brand-ink/40 mb-3">Password</label>
             <input 
               type="password" 
               required 
@@ -95,7 +95,7 @@ const Register: React.FC = () => {
         </form>
 
         <div className="mt-12 text-center">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">
+          <p className="text-[12px] font-bold uppercase tracking-widest text-brand-ink/40">
             Already a member?{' '}
             <Link to="/login" className="text-brand-gold hover:text-brand-ink transition-colors">Sign In</Link>
           </p>

@@ -39,18 +39,18 @@ const Login: React.FC = () => {
             <span className="text-[10px] font-bold tracking-[0.5em] text-brand-gold uppercase mt-2">Mala</span>
           </div>
           <h1 className="text-2xl font-bold uppercase tracking-tight mb-3">Welcome Back</h1>
-          <p className="text-brand-ink/40 text-[10px] font-bold uppercase tracking-widest">Enter your credentials to access the archive</p>
+          <p className="text-brand-ink/40 text-[10px] font-bold uppercase tracking-widest">Enter your credentials to access MEHER-MALA</p>
         </div>
 
         {error && (
-          <div className="mb-8 p-4 bg-rose-50 text-rose-600 text-[10px] font-bold uppercase tracking-widest rounded-2xl border border-rose-100 text-center">
+          <div className="mb-8 p-4 bg-rose-50 text-rose-600 text-[15px] font-bold uppercase tracking-widest rounded-2xl border border-rose-100 text-center">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-8">
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Email Address</label>
+            <label className="block text-[15px] font-bold uppercase tracking-[0.1em] text-brand-ink/40 mb-3">Email Address</label>
             <input 
               type="email" 
               required 
@@ -61,7 +61,7 @@ const Login: React.FC = () => {
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Password</label>
+            <label className="block text-[15px] font-bold uppercase tracking-[0.1em] text-brand-ink/40 mb-3">Password</label>
             <input 
               type="password" 
               required 

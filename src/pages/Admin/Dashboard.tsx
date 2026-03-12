@@ -53,10 +53,16 @@ const AdminDashboard: React.FC = () => {
   const data = [
     { name: 'Jan', sales: 4000 },
     { name: 'Feb', sales: 3000 },
-    { name: 'Mar', sales: 2000 },
-    { name: 'Apr', sales: 2780 },
-    { name: 'May', sales: 1890 },
-    { name: 'Jun', sales: 2390 },
+    { name: 'Mar', sales: 5000 },
+    { name: 'Apr', sales: 4000 },
+    { name: 'May', sales: 6000 },
+    { name: 'Jun', sales: 7000 },
+    { name: 'Jul', sales: 5000 },
+    { name: 'Aug', sales: 4000 },
+    { name: 'Sep', sales: 6000 },
+    { name: 'Oct', sales: 7000 },
+    { name: 'Nov', sales: 5000 },
+    { name: 'Dec', sales: 8000 },    
   ];
 
   return (
@@ -70,14 +76,14 @@ const AdminDashboard: React.FC = () => {
               <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">Management Console</span>
               <div className="h-px w-12 bg-brand-gold/30"></div>
             </div>
-            <h1 className="text-6xl font-display font-bold uppercase tracking-tighter">Archive Intel</h1>
+            <h1 className="text-6xl font-display font-bold uppercase tracking-tighter">MEHER Intel</h1>
           </div>
           <div className="flex gap-4">
             <button 
               onClick={() => navigate('/admin/products')}
               className="flex items-center gap-3 bg-brand-ink text-white px-8 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand-gold transition-all shadow-xl shadow-black/10"
             >
-              <Plus size={16} /> New Product
+              <Plus size={16} /> Add New Product
             </button>
             <button 
               onClick={() => navigate('/admin/settings')}
@@ -94,7 +100,7 @@ const AdminDashboard: React.FC = () => {
             { label: 'Revenue', value: `৳${stats.totalRevenue.toLocaleString()}`, icon: DollarSign, trend: '+12.5%', color: 'text-emerald-600' },
             { label: 'Orders', value: stats.totalOrders, icon: ShoppingBag, trend: '+8.2%', color: 'text-brand-gold' },
             { label: 'Inventory', value: stats.totalProducts, icon: Package, trend: '-2.4%', color: 'text-brand-ink' },
-            { label: 'Customers', value: '1,284', icon: Users, trend: '+15.1%', color: 'text-indigo-600' },
+            { label: 'Customers', value: stats.totalCustomers, icon: Users, trend: '+15.1%', color: 'text-indigo-600' },
           ].map((stat, idx) => (
             <motion.div 
               key={stat.label}

@@ -405,7 +405,7 @@ const AdminProducts: React.FC = () => {
 
                   <div className="md:col-span-2 pt-12">
                     <button type="submit" className="w-full premium-button-primary h-20 text-sm tracking-[0.3em]">
-                      {editingProduct ? 'UPDATE ARCHIVE' : 'ADD TO ARCHIVE'}
+                      {editingProduct ? 'UPDATE PRODUCT' : 'ADD TO SITE'}
                     </button>
                   </div>
                 </form>
