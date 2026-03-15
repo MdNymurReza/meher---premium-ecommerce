@@ -59,51 +59,45 @@ const AdminCategories: React.FC = () => {
   };
 
   return (
-    <div className="flex bg-brand-paper min-h-screen">
+    <div className="flex bg-gray-50 min-h-screen">
       <AdminSidebar />
       
-      <main className="flex-grow p-12 lg:p-20 overflow-y-auto">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
-          <div>
-            <div className="flex items-baseline gap-4 mb-4">
-              <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">Taxonomy</span>
-              <div className="h-px w-12 bg-brand-gold/30"></div>
-            </div>
-            <h1 className="text-6xl font-display font-bold uppercase tracking-tighter">Categories</h1>
-          </div>
+      <main className="flex-grow p-8">
+        <header className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">Categories</h1>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-3 bg-brand-ink text-white px-8 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand-gold transition-all shadow-xl shadow-black/10"
+            className="flex items-center gap-2 bg-brand-ink text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-800 transition-all"
           >
             <Plus size={16} /> Add Category
           </button>
         </header>
 
         {loading ? (
-          <div className="flex items-center justify-center py-40">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-gold"></div>
+          <div className="flex items-center justify-center py-20">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-ink"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category) => (
               <motion.div 
                 key={category.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white p-10 rounded-[2.5rem] border border-black/5 shadow-2xl shadow-black/5 flex items-center justify-between group"
+                className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between group"
               >
-                <div className="flex items-center gap-6">
-                  <div className="w-14 h-14 bg-brand-beige/30 text-brand-gold rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Layers size={24} strokeWidth={1.5} />
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-gray-100 text-gray-500 rounded-lg flex items-center justify-center">
+                    <Layers size={20} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold uppercase tracking-tight">{category.name}</h3>
-                    <p className="text-[8px] font-bold text-brand-ink/30 uppercase tracking-widest mt-1">Archive Segment</p>
+                    <h3 className="text-sm font-bold">{category.name}</h3>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Category</p>
                   </div>
                 </div>
                 <button 
                   onClick={() => handleDelete(category.id)}
-                  className="p-3 bg-brand-beige/30 text-brand-ink/40 rounded-xl hover:bg-rose-50 hover:text-rose-600 transition-all"
+                  className="p-2 text-gray-400 hover:text-rose-500 transition-all"
                 >
                   <Trash2 size={16} />
                 </button>
@@ -111,9 +105,9 @@ const AdminCategories: React.FC = () => {
             ))}
             
             {categories.length === 0 && (
-              <div className="col-span-full py-40 text-center">
-                <Layers size={48} className="mx-auto text-brand-ink/10 mb-6" strokeWidth={1} />
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">No categories defined</p>
+              <div className="col-span-full py-20 text-center">
+                <Layers size={32} className="mx-auto text-gray-200 mb-4" />
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">No categories found</p>
               </div>
             )}
           </div>
@@ -128,38 +122,38 @@ const AdminCategories: React.FC = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setIsModalOpen(false)}
-                className="absolute inset-0 bg-brand-ink/60 backdrop-blur-sm"
+                className="absolute inset-0 bg-black/40 backdrop-blur-sm"
               />
               <motion.div 
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative bg-white w-full max-w-md rounded-[3rem] overflow-hidden shadow-2xl"
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                className="relative bg-white w-full max-w-md rounded-xl overflow-hidden shadow-xl"
               >
-                <div className="p-12">
-                  <div className="flex justify-between items-center mb-12">
-                    <h2 className="text-3xl font-display font-bold uppercase tracking-tighter">New Category</h2>
-                    <button onClick={() => setIsModalOpen(false)} className="p-4 bg-brand-beige/30 rounded-2xl hover:bg-brand-beige transition-colors">
-                      <X size={20} />
+                <div className="p-8">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-lg font-bold">New Category</h2>
+                    <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                      <X size={18} />
                     </button>
                   </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-8">
+                  <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Category Name</label>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Category Name</label>
                       <input 
                         type="text" 
                         required 
                         autoFocus
-                        className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all" 
-                        placeholder="E.G. ACCESSORIES"
+                        className="input-field" 
+                        placeholder="e.g. Accessories"
                         value={newCategoryName}
                         onChange={(e) => setNewCategoryName(e.target.value)}
                       />
                     </div>
 
-                    <button type="submit" className="w-full premium-button-primary h-16 text-[10px] tracking-[0.3em] mt-8">
-                      ADD NEW CATEGORY
+                    <button type="submit" className="w-full button-primary py-3">
+                      Add Category
                     </button>
                   </form>
                 </div>

@@ -74,70 +74,60 @@ const AdminSettings: React.FC = () => {
   }
 
   return (
-    <div className="flex bg-brand-beige/30 min-h-screen">
+    <div className="flex bg-gray-50 min-h-screen">
       <AdminSidebar />
       
-      <main className="flex-grow p-16">
-        <header className="mb-20">
-          <div className="flex items-baseline gap-4 mb-4">
-            <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs">Configuration</span>
-            <div className="h-px flex-grow bg-black/5"></div>
-          </div>
-          <div className="flex justify-between items-end">
-            <h1 className="text-6xl font-display font-bold uppercase tracking-tighter">Site Settings</h1>
-            <button 
-              onClick={handleSave}
-              disabled={saving}
-              className="premium-button-primary flex items-center gap-3 px-12 h-16 text-[10px] tracking-[0.2em] disabled:opacity-50"
-            >
-              {saving ? <RefreshCw className="animate-spin" size={16} /> : <Save size={16} />}
-              SAVE CHANGES
-            </button>
-          </div>
+      <main className="flex-grow p-8">
+        <header className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">Site Settings</h1>
+          <button 
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center gap-2 bg-brand-ink text-white px-6 py-2 rounded-lg text-xs font-bold hover:bg-gray-800 transition-all disabled:opacity-50"
+          >
+            {saving ? <RefreshCw className="animate-spin" size={16} /> : <Save size={16} />}
+            Save Changes
+          </button>
         </header>
 
-        <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Hero Section Settings */}
-          <div className="space-y-12">
-            <div className="bg-white rounded-[3rem] p-12 shadow-2xl shadow-black/5 border border-black/5">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-12 h-12 rounded-2xl bg-brand-gold/10 flex items-center justify-center text-brand-gold">
-                  <Layout size={20} />
-                </div>
-                <h2 className="text-2xl font-display font-bold uppercase tracking-tight">Hero Section</h2>
+          <div className="space-y-8">
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+              <div className="flex items-center gap-3 mb-6">
+                <Layout size={20} className="text-gray-400" />
+                <h2 className="text-lg font-bold">Hero Section</h2>
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Hero Heading</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Hero Heading</label>
                   <input 
                     type="text" 
-                    className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all" 
+                    className="input-field" 
                     value={settings.heroHeading}
                     onChange={e => setSettings({...settings, heroHeading: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Hero Subheading</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Hero Subheading</label>
                   <textarea 
                     rows={4}
-                    className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all resize-none" 
+                    className="input-field resize-none" 
                     value={settings.heroSubheading}
                     onChange={e => setSettings({...settings, heroSubheading: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Hero Image URL</label>
-                  <div className="flex gap-4">
-                    <input 
-                      type="text" 
-                      className="flex-grow bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all" 
-                      value={settings.heroImage}
-                      onChange={e => setSettings({...settings, heroImage: e.target.value})}
-                    />
-                  </div>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Hero Image URL</label>
+                  <input 
+                    type="text" 
+                    className="input-field" 
+                    value={settings.heroImage}
+                    onChange={e => setSettings({...settings, heroImage: e.target.value})}
+                  />
                   {settings.heroImage && (
-                    <div className="mt-6 aspect-video rounded-3xl overflow-hidden border border-black/5">
+                    <div className="mt-4 aspect-video rounded-lg overflow-hidden border border-gray-100">
                       <img src={settings.heroImage} alt="Hero Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                     </div>
                   )}
@@ -145,48 +135,44 @@ const AdminSettings: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-[3rem] p-12 shadow-2xl shadow-black/5 border border-black/5">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-12 h-12 rounded-2xl bg-brand-gold/10 flex items-center justify-center text-brand-gold">
-                  <Sparkles size={20} />
-                </div>
-                <h2 className="text-2xl font-display font-bold uppercase tracking-tight">Marquee Content</h2>
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+              <div className="flex items-center gap-3 mb-6">
+                <Sparkles size={20} className="text-gray-400" />
+                <h2 className="text-lg font-bold">Marquee Content</h2>
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Marquee Phrases (Comma Separated)</label>
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Marquee Phrases (Comma Separated)</label>
                 <textarea 
                   rows={3}
-                  className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all resize-none" 
+                  className="input-field resize-none" 
                   value={marqueeInput}
                   onChange={e => setMarqueeInput(e.target.value)}
                   placeholder="Handcrafted Excellence, Premium Materials, Timeless Design"
                 />
-                <p className="mt-4 text-[10px] text-brand-ink/30 italic">These phrases will scroll across the home page.</p>
+                <p className="mt-2 text-[10px] text-gray-400 italic">These phrases will scroll across the home page.</p>
               </div>
             </div>
           </div>
 
           {/* Brand Story Settings */}
-          <div className="space-y-12">
-            <div className="bg-white rounded-[3rem] p-12 shadow-2xl shadow-black/5 border border-black/5">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-12 h-12 rounded-2xl bg-brand-gold/10 flex items-center justify-center text-brand-gold">
-                  <ImageIcon size={20} />
-                </div>
-                <h2 className="text-2xl font-display font-bold uppercase tracking-tight">Brand Story</h2>
+          <div className="space-y-8">
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+              <div className="flex items-center gap-3 mb-6">
+                <ImageIcon size={20} className="text-gray-400" />
+                <h2 className="text-lg font-bold">Brand Story</h2>
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Story Image URL</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Story Image URL</label>
                   <input 
                     type="text" 
-                    className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all" 
+                    className="input-field" 
                     value={settings.brandStoryImage}
                     onChange={e => setSettings({...settings, brandStoryImage: e.target.value})}
                   />
                   {settings.brandStoryImage && (
-                    <div className="mt-6 aspect-[4/5] rounded-3xl overflow-hidden border border-black/5 max-w-xs mx-auto">
+                    <div className="mt-4 aspect-[4/5] rounded-lg overflow-hidden border border-gray-100 max-w-xs">
                       <img src={settings.brandStoryImage} alt="Story Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                     </div>
                   )}
@@ -194,24 +180,24 @@ const AdminSettings: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-brand-ink rounded-[3rem] p-12 text-white shadow-2xl shadow-black/20">
-              <h3 className="text-xl font-display font-bold uppercase tracking-tight mb-6">Quick Guide</h3>
-              <ul className="space-y-4 text-xs text-white/60 font-light leading-relaxed">
-                <li className="flex gap-3">
-                  <span className="text-brand-gold font-bold">01</span>
-                  Use high-quality image URLs (Cloudinary, Imgur, etc.) for the best visual impact.
+            <div className="bg-brand-ink rounded-xl p-8 text-white shadow-sm">
+              <h3 className="text-sm font-bold uppercase tracking-widest mb-4">Quick Guide</h3>
+              <ul className="space-y-3 text-xs text-gray-400 leading-relaxed">
+                <li className="flex gap-2">
+                  <span className="text-white font-bold">01</span>
+                  Use high-quality image URLs for the best visual impact.
                 </li>
-                <li className="flex gap-3">
-                  <span className="text-brand-gold font-bold">02</span>
-                  Hero headings should be short and impactful (2-3 words).
+                <li className="flex gap-2">
+                  <span className="text-white font-bold">02</span>
+                  Hero headings should be short and impactful.
                 </li>
-                <li className="flex gap-3">
-                  <span className="text-brand-gold font-bold">03</span>
-                  Separate marquee phrases with commas to create a continuous flow.
+                <li className="flex gap-2">
+                  <span className="text-white font-bold">03</span>
+                  Separate marquee phrases with commas.
                 </li>
-                <li className="flex gap-3">
-                  <span className="text-brand-gold font-bold">04</span>
-                  Remember to click "Save Changes" to apply updates to the live site.
+                <li className="flex gap-2">
+                  <span className="text-white font-bold">04</span>
+                  Remember to save changes to apply updates.
                 </li>
               </ul>
             </div>

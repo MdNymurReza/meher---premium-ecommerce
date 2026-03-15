@@ -23,6 +23,20 @@ To ensure all features of Meher work correctly, you need to create the following
   - `createdAt`: Descending
 - **Query Scope**: Collection
 
+### 4. Product Reviews (Product Details Page)
+- **Collection ID**: `reviews`
+- **Fields**:
+  - `productId`: Ascending
+  - `createdAt`: Descending
+- **Query Scope**: Collection
+
+### 5. Discount Code Check (Checkout Page)
+- **Collection ID**: `discounts`
+- **Fields**:
+  - `code`: Ascending
+  - `active`: Ascending
+- **Query Scope**: Collection
+
 ---
 
 **Note**: You can also create these automatically by clicking the "Error" links in your browser's developer console (F12) whenever a "Query requires an index" error appears.

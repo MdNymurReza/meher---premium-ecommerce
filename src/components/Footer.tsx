@@ -13,19 +13,19 @@ const Footer: React.FC = () => {
               MEHER MALA
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Handcrafted jewellery and premium apparel for the modern soul. Quality and elegance in every piece.
+              Your destination for handcrafted jewellery and premium apparel. Quality and style in every piece.
             </p>
             <div className="flex space-x-4">
-              <a href="https://www.instagram.com" className="text-gray-400 hover:text-white transition-colors"><Instagram size={25} /></a>
-              <a href="https://www.facebook.com" className="text-gray-400 hover:text-white transition-colors"><Facebook size={25} /></a>
-              <a href="https://www.twitter.com" className="text-gray-400 hover:text-white transition-colors"><Twitter size={25} /></a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><Instagram size={20} /></a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><Facebook size={20} /></a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><Twitter size={20} /></a>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider mb-3">Shop</h3>
-            <ul className="space-y-2 text-gray-400 text-sm">
+            <h3 className="text-sm font-bold uppercase tracking-wider mb-6">Shop</h3>
+            <ul className="space-y-3 text-gray-400 text-sm">
               <li><Link to="/shop?category=Jewellery" className="hover:text-white transition-colors">Jewellery</Link></li>
               <li><Link to="/shop?category=Women's Clothing" className="hover:text-white transition-colors">Women's</Link></li>
               <li><Link to="/shop?category=Men's Clothing" className="hover:text-white transition-colors">Men's</Link></li>
@@ -35,27 +35,24 @@ const Footer: React.FC = () => {
 
           {/* Customer Service */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider mb-3">Support</h3>
-            <ul className="space-y-2 text-gray-400 text-sm">
+            <h3 className="text-sm font-bold uppercase tracking-wider mb-6">Support</h3>
+            <ul className="space-y-3 text-gray-400 text-sm">
               <li><Link to="/profile" className="hover:text-white transition-colors">My Account</Link></li>
-              <li><Link to="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link></li>
+              <li><Link to="/shop" className="hover:text-white transition-colors">Shipping Info</Link></li>
+              <li><Link to="/shop" className="hover:text-white transition-colors">Returns & Exchanges</Link></li>
               <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider mb-3">Newsletter</h3>
-            <p className="text-gray-400 text-sm mb-3">Subscribe to get special offers and updates.</p>
+            <h3 className="text-sm font-bold uppercase tracking-wider mb-6">Newsletter</h3>
+            <p className="text-gray-400 text-sm mb-4">Subscribe to get special offers and updates.</p>
             <form 
               className="flex gap-2"
               onSubmit={(e) => {
                 e.preventDefault();
-                const email = (e.target as any).email.value;
-                if (email) {
-                  alert(`Thank you! ${email} has been subscribed.`);
-                  (e.target as any).reset();
-                }
+                (e.target as any).reset();
               }}
             >
               <input 
@@ -66,7 +63,7 @@ const Footer: React.FC = () => {
                 className="bg-gray-800 border-none rounded-lg w-full py-2 px-4 text-sm outline-none focus:ring-1 focus:ring-gray-700 transition-all"
               />
               <button type="submit" className="bg-white text-gray-900 px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-200 transition-colors">
-                Subscribe
+                JOIN
               </button>
             </form>
           </div>

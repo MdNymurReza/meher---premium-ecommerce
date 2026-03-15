@@ -150,7 +150,7 @@ const Checkout: React.FC = () => {
         </motion.div>
         <h1 className="text-2xl font-bold mb-2 text-center">Order Confirmed!</h1>
         <p className="text-gray-500 mb-8 max-w-md text-center">
-          Thank you for shopping with Meher Mala. Your order has been placed successfully. You can view your order history in your profile or continue shopping for more premium products.
+          Thank you for shopping with Meher Mala. Your order has been placed successfully.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <button onClick={() => navigate('/profile')} className="bg-brand-ink text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
@@ -236,7 +236,7 @@ const Checkout: React.FC = () => {
                 </div>
               </label>
 
-              <label className={`flex flex-col p-5 rounded-lg border cursor-pointer transition-all ${formData.paymentMethod === 'bKash' ? 'border-brand-ink bg-gray-50' : 'border-gray-100 hover:border-gray-200'}`}>
+              <label className={`flex flex-col p-4 rounded-lg border cursor-pointer transition-all ${formData.paymentMethod === 'bKash' ? 'border-brand-ink bg-gray-50' : 'border-gray-100 hover:border-gray-200'}`}>
                 <div className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-3">
                     <input 
@@ -248,10 +248,10 @@ const Checkout: React.FC = () => {
                     />
                     <div>
                       <span className="font-bold block text-sm">bKash Manual</span>
-                      <span className="text-[15px] text-gray-500 uppercase tracking-wider">Send to: 01608194313</span>
+                      <span className="text-[10px] text-gray-400 uppercase tracking-wider">Send to: 01700000000</span>
                     </div>
                   </div>
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0TtlhLx9Kiis00qZMMz5gJfVhjkWS-0HjRQ&s" alt="bKash" className="h-6" />
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Bkash_logo.png/1200px-Bkash_logo.png" alt="bKash" className="h-4" />
                 </div>
                 
                 {formData.paymentMethod === 'bKash' && (

@@ -26,46 +26,41 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-24 bg-brand-beige/20">
+    <div className="min-h-screen flex items-center justify-center px-4 py-24 bg-gray-50">
       <motion.div 
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-md w-full bg-white p-12 rounded-[3rem] shadow-2xl shadow-black/5 border border-black/5"
+        className="max-w-md w-full bg-white p-8 rounded-2xl shadow-sm border border-gray-100"
       >
-        <div className="text-center mb-12">
-          <div className="flex flex-col items-center mb-8">
-            <span className="text-4xl font-display font-bold tracking-tighter text-brand-ink leading-none">MEHER</span>
-            <span className="text-[10px] font-bold tracking-[0.5em] text-brand-gold uppercase mt-2">Mala</span>
-          </div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight mb-3">Welcome Back</h1>
-          <p className="text-brand-ink/40 text-[10px] font-bold uppercase tracking-widest">Enter your credentials to access MEHER-MALA</p>
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold mb-2">Welcome Back</h1>
+          <p className="text-gray-500 text-sm">Sign in to your account to continue</p>
         </div>
 
         {error && (
-          <div className="mb-8 p-4 bg-rose-50 text-rose-600 text-[15px] font-bold uppercase tracking-widest rounded-2xl border border-rose-100 text-center">
+          <div className="mb-6 p-4 bg-rose-50 text-rose-600 text-xs font-medium rounded-lg border border-rose-100 text-center">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-[15px] font-bold uppercase tracking-[0.1em] text-brand-ink/40 mb-3">Email Address</label>
+            <label className="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Email Address</label>
             <input 
               type="email" 
               required 
-              className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all placeholder:text-brand-ink/20" 
-              placeholder="NAME@EXAMPLE.COM"
+              className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-brand-ink/5 outline-none transition-all" 
+              placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-[15px] font-bold uppercase tracking-[0.1em] text-brand-ink/40 mb-3">Password</label>
+            <label className="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Password</label>
             <input 
               type="password" 
               required 
-              className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all placeholder:text-brand-ink/20" 
+              className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-brand-ink/5 outline-none transition-all" 
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -75,16 +70,16 @@ const Login: React.FC = () => {
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full premium-button-primary h-16 text-sm tracking-[0.2em]"
+            className="w-full bg-brand-ink text-white h-12 rounded-lg text-sm font-bold hover:bg-brand-ink/90 transition-all disabled:opacity-50"
           >
-            {loading ? 'AUTHENTICATING...' : 'SIGN IN'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
-        <div className="mt-12 text-center">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">
-            New to Meher?{' '}
-            <Link to="/register" className="text-brand-gold hover:text-brand-ink transition-colors">Create Account</Link>
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-500">
+            New to Meher Mala?{' '}
+            <Link to="/register" className="text-brand-ink font-bold hover:underline">Create Account</Link>
           </p>
         </div>
       </motion.div>

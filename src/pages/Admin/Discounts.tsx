@@ -78,81 +78,72 @@ const AdminDiscounts: React.FC = () => {
   };
 
   return (
-    <div className="flex bg-brand-paper min-h-screen">
+    <div className="flex bg-gray-50 min-h-screen">
       <AdminSidebar />
       
-      <main className="flex-grow p-12 lg:p-20 overflow-y-auto">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
-          <div>
-            <div className="flex items-baseline gap-4 mb-4">
-              <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">Promotions</span>
-              <div className="h-px w-12 bg-brand-gold/30"></div>
-            </div>
-            <h1 className="text-6xl font-display font-bold uppercase tracking-tighter">Promo Codes</h1>
-          </div>
+      <main className="flex-grow p-8">
+        <header className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">Discounts</h1>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-3 bg-brand-ink text-white px-8 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand-gold transition-all shadow-xl shadow-black/10"
+            className="flex items-center gap-2 bg-brand-ink text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-800 transition-all"
           >
             <Plus size={16} /> Create Code
           </button>
         </header>
 
         {loading ? (
-          <div className="flex items-center justify-center py-40">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-gold"></div>
+          <div className="flex items-center justify-center py-20">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-ink"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {discounts.map((discount) => (
               <motion.div 
                 key={discount.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white p-10 rounded-[2.5rem] border border-black/5 shadow-2xl shadow-black/5 relative overflow-hidden group"
+                className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden group"
               >
-                <div className={`absolute top-0 right-0 w-32 h-32 -mr-16 -mt-16 rounded-full opacity-[0.03] transition-transform duration-700 group-hover:scale-150 ${discount.active ? 'bg-emerald-500' : 'bg-rose-500'}`}></div>
-                
-                <div className="flex justify-between items-start mb-10">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${discount.active ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                    <Tag size={24} strokeWidth={1.5} />
+                <div className="flex justify-between items-start mb-6">
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${discount.active ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                    <Tag size={20} />
                   </div>
                   <div className="flex gap-2">
                     <button 
                       onClick={() => toggleActive(discount.id, discount.active)}
-                      className={`p-3 rounded-xl transition-all ${discount.active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100' : 'bg-rose-50 text-rose-600 hover:bg-rose-100'}`}
+                      className={`p-2 rounded-lg transition-all ${discount.active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100' : 'bg-rose-50 text-rose-600 hover:bg-rose-100'}`}
                     >
-                      {discount.active ? <Check size={16} /> : <X size={16} />}
+                      {discount.active ? <Check size={14} /> : <X size={14} />}
                     </button>
                     <button 
                       onClick={() => handleDelete(discount.id)}
-                      className="p-3 bg-brand-beige/30 text-brand-ink/40 rounded-xl hover:bg-rose-50 hover:text-rose-600 transition-all"
+                      className="p-2 text-gray-400 hover:text-rose-500 transition-all"
                     >
                       <Trash2 size={16} />
                     </button>
                   </div>
                 </div>
 
-                <div className="mb-8">
-                  <h3 className="text-2xl font-display font-bold uppercase tracking-tight mb-2">{discount.code}</h3>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/30">
+                <div className="mb-6">
+                  <h3 className="text-lg font-bold mb-1">{discount.code}</h3>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
                       {discount.type === 'percentage' ? `${discount.value}% OFF` : `৳${discount.value} OFF`}
                     </span>
-                    <div className="h-px w-6 bg-brand-ink/10"></div>
                     <span className={`text-[8px] font-bold uppercase tracking-widest ${discount.active ? 'text-emerald-500' : 'text-rose-500'}`}>
                       {discount.active ? 'Active' : 'Inactive'}
                     </span>
                   </div>
                 </div>
 
-                <div className="pt-8 border-t border-black/5 flex justify-between items-center">
+                <div className="pt-4 border-t border-gray-100 flex justify-between items-center">
                   <div>
-                    <p className="text-[8px] font-bold text-brand-ink/30 uppercase tracking-widest mb-1">Min. Purchase</p>
-                    <p className="text-sm font-bold tracking-tight">৳{discount.minPurchase?.toLocaleString() || 0}</p>
+                    <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Min. Purchase</p>
+                    <p className="text-xs font-bold">৳{discount.minPurchase?.toLocaleString() || 0}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[8px] font-bold text-brand-ink/30 uppercase tracking-widest mb-1">Type</p>
+                    <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Type</p>
                     <p className="text-[10px] font-bold uppercase tracking-widest">{discount.type}</p>
                   </div>
                 </div>
@@ -160,9 +151,9 @@ const AdminDiscounts: React.FC = () => {
             ))}
             
             {discounts.length === 0 && (
-              <div className="col-span-full py-40 text-center">
-                <Tag size={48} className="mx-auto text-brand-ink/10 mb-6" strokeWidth={1} />
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">No active promotions</p>
+              <div className="col-span-full py-20 text-center">
+                <Tag size={32} className="mx-auto text-gray-200 mb-4" />
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">No active promotions</p>
               </div>
             )}
           </div>
@@ -177,61 +168,53 @@ const AdminDiscounts: React.FC = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setIsModalOpen(false)}
-                className="absolute inset-0 bg-brand-ink/60 backdrop-blur-sm"
+                className="absolute inset-0 bg-black/40 backdrop-blur-sm"
               />
               <motion.div 
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative bg-white w-full max-w-xl rounded-[3rem] overflow-hidden shadow-2xl"
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                className="relative bg-white w-full max-w-md rounded-xl overflow-hidden shadow-xl"
               >
-                <div className="p-12">
-                  <div className="flex justify-between items-center mb-12">
-                    <h2 className="text-3xl font-display font-bold uppercase tracking-tighter">New Promo Code</h2>
-                    <button onClick={() => setIsModalOpen(false)} className="p-4 bg-brand-beige/30 rounded-2xl hover:bg-brand-beige transition-colors">
-                      <X size={20} />
+                <div className="p-8">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-lg font-bold">New Promo Code</h2>
+                    <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                      <X size={18} />
                     </button>
                   </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-8">
+                  <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Promo Code</label>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Promo Code</label>
                       <input 
                         type="text" 
                         required 
-                        className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all uppercase" 
-                        placeholder="E.G. MEHER10"
+                        className="input-field uppercase" 
+                        placeholder="e.g. MEHER10"
                         value={formData.code}
                         onChange={(e) => setFormData({...formData, code: e.target.value})}
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Discount Type</label>
-                        <div className="flex bg-brand-beige/20 p-1.5 rounded-2xl">
-                          <button 
-                            type="button"
-                            onClick={() => setFormData({...formData, type: 'percentage'})}
-                            className={`flex-grow flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${formData.type === 'percentage' ? 'bg-white text-brand-ink shadow-sm' : 'text-brand-ink/40'}`}
-                          >
-                            <Percent size={14} /> Percentage
-                          </button>
-                          <button 
-                            type="button"
-                            onClick={() => setFormData({...formData, type: 'fixed'})}
-                            className={`flex-grow flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${formData.type === 'fixed' ? 'bg-white text-brand-ink shadow-sm' : 'text-brand-ink/40'}`}
-                          >
-                            <DollarSign size={14} /> Fixed
-                          </button>
-                        </div>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Type</label>
+                        <select 
+                          className="input-field appearance-none" 
+                          value={formData.type}
+                          onChange={(e) => setFormData({...formData, type: e.target.value as 'percentage' | 'fixed'})}
+                        >
+                          <option value="percentage">Percentage</option>
+                          <option value="fixed">Fixed Amount</option>
+                        </select>
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Value</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Value</label>
                         <input 
                           type="number" 
                           required 
-                          className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all" 
+                          className="input-field" 
                           value={formData.value}
                           onChange={(e) => setFormData({...formData, value: Number(e.target.value)})}
                         />
@@ -239,17 +222,17 @@ const AdminDiscounts: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Min. Purchase Amount (৳)</label>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Min. Purchase (৳)</label>
                       <input 
                         type="number" 
-                        className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all" 
+                        className="input-field" 
                         value={formData.minPurchase}
                         onChange={(e) => setFormData({...formData, minPurchase: Number(e.target.value)})}
                       />
                     </div>
 
-                    <button type="submit" className="w-full premium-button-primary h-16 text-[10px] tracking-[0.3em] mt-8">
-                      CREATE PROMOTION
+                    <button type="submit" className="w-full button-primary py-3">
+                      Create Promotion
                     </button>
                   </form>
                 </div>

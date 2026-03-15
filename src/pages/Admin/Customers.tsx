@@ -32,85 +32,79 @@ const AdminCustomers: React.FC = () => {
   );
 
   return (
-    <div className="flex bg-brand-beige/30 min-h-screen">
+    <div className="flex bg-gray-50 min-h-screen">
       <AdminSidebar />
       
-      <main className="flex-grow p-16">
-        <header className="mb-20">
-          <div className="flex items-baseline gap-4 mb-4">
-            <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs">CRM</span>
-            <div className="h-px flex-grow bg-black/5"></div>
-          </div>
-          <div className="flex justify-between items-end">
-            <h1 className="text-6xl font-display font-bold uppercase tracking-tighter">Customer Archive</h1>
-            <div className="relative w-80">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-brand-ink/20" size={16} />
-              <input 
-                type="text" 
-                placeholder="SEARCH CUSTOMERS..." 
-                className="w-full bg-white border border-black/5 rounded-2xl pl-14 pr-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all shadow-2xl shadow-black/5"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+      <main className="flex-grow p-8">
+        <header className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">Customers</h1>
+          <div className="relative w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+            <input 
+              type="text" 
+              placeholder="Search customers..." 
+              className="w-full bg-white border border-gray-200 rounded-lg pl-10 pr-4 py-2 text-xs focus:ring-1 focus:ring-brand-ink outline-none transition-all"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
         </header>
 
-        <div className="bg-white rounded-[3rem] border border-black/5 overflow-hidden shadow-2xl shadow-black/5">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-brand-beige/30 border-b border-black/5">
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Member</th>
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Contact</th>
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Joined</th>
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Role</th>
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30 text-right">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-black/5">
-              {filteredCustomers.map((customer) => (
-                <tr key={customer.uid} className="hover:bg-brand-beige/10 transition-colors group">
-                  <td className="px-10 py-8">
-                    <div className="flex items-center gap-6">
-                      <div className="w-12 h-12 bg-brand-ink text-white rounded-full flex items-center justify-center text-sm font-display font-bold shadow-xl shadow-brand-ink/10">
-                        {customer.name.charAt(0)}
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">Member</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">Contact</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">Joined</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">Role</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500 text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {filteredCustomers.map((customer) => (
+                  <tr key={customer.uid} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 bg-brand-ink text-white rounded-full flex items-center justify-center text-xs font-bold">
+                          {customer.name.charAt(0)}
+                        </div>
+                        <span className="text-xs font-bold">{customer.name}</span>
                       </div>
-                      <span className="text-xs font-bold uppercase tracking-tight">{customer.name}</span>
-                    </div>
-                  </td>
-                  <td className="px-10 py-8">
-                    <div className="flex items-center gap-2 text-[10px] font-bold text-brand-ink/40 tracking-widest uppercase">
-                      <Mail size={12} strokeWidth={2} />
-                      {customer.email}
-                    </div>
-                  </td>
-                  <td className="px-10 py-8">
-                    <div className="flex items-center gap-2 text-[10px] font-bold text-brand-ink/40 tracking-widest uppercase">
-                      <Calendar size={12} strokeWidth={2} />
-                      {customer.createdAt?.toDate ? format(customer.createdAt.toDate(), 'MMM dd, yyyy') : 'Recent'}
-                    </div>
-                  </td>
-                  <td className="px-10 py-8">
-                    <div className="flex items-center gap-2">
-                      <span className={`text-[8px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border ${
-                        customer.role === 'admin' ? 'bg-brand-gold/10 text-brand-gold border-brand-gold/20' : 'bg-brand-beige/50 text-brand-ink/40 border-black/5'
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 tracking-widest uppercase">
+                        <Mail size={12} />
+                        {customer.email}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 tracking-widest uppercase">
+                        <Calendar size={12} />
+                        {customer.createdAt?.toDate ? format(customer.createdAt.toDate(), 'MMM dd, yyyy') : 'Recent'}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`text-[8px] font-bold px-2 py-1 rounded-full uppercase tracking-widest border ${
+                        customer.role === 'admin' ? 'bg-brand-ink text-white border-brand-ink' : 'bg-gray-50 text-gray-500 border-gray-200'
                       }`}>
                         {customer.role}
                       </span>
-                    </div>
-                  </td>
-                  <td className="px-10 py-8 text-right">
-                    <span className="text-[8px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100">
-                      Active
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <span className="text-[8px] font-bold px-2 py-1 rounded-full uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100">
+                        Active
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {filteredCustomers.length === 0 && !loading && (
-            <div className="text-center py-32">
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">No members found in DataBase</p>
+            <div className="text-center py-20">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">No members found</p>
             </div>
           )}
         </div>

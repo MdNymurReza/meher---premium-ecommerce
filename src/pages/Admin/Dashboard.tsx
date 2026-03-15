@@ -15,6 +15,7 @@ const AdminDashboard: React.FC = () => {
     totalRevenue: 0,
     totalOrders: 0,
     totalProducts: 0,
+    totalCustomers: 0,
     pendingOrders: 0
   });
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
@@ -25,6 +26,7 @@ const AdminDashboard: React.FC = () => {
       try {
         const ordersSnap = await getDocs(collection(db, 'orders'));
         const productsSnap = await getDocs(collection(db, 'products'));
+        const usersSnap = await getDocs(collection(db, 'users'));
         const pendingSnap = await getDocs(query(collection(db, 'orders'), where('status', '==', 'Pending')));
 
         const orders = ordersSnap.docs.map(doc => doc.data() as Order);
@@ -34,6 +36,7 @@ const AdminDashboard: React.FC = () => {
           totalRevenue: revenue,
           totalOrders: ordersSnap.size,
           totalProducts: productsSnap.size,
+          totalCustomers: usersSnap.size,
           pendingOrders: pendingSnap.size
         });
 
@@ -53,109 +56,94 @@ const AdminDashboard: React.FC = () => {
   const data = [
     { name: 'Jan', sales: 4000 },
     { name: 'Feb', sales: 3000 },
-    { name: 'Mar', sales: 5000 },
-    { name: 'Apr', sales: 4000 },
-    { name: 'May', sales: 6000 },
-    { name: 'Jun', sales: 7000 },
-    { name: 'Jul', sales: 5000 },
-    { name: 'Aug', sales: 4000 },
-    { name: 'Sep', sales: 6000 },
-    { name: 'Oct', sales: 7000 },
-    { name: 'Nov', sales: 5000 },
-    { name: 'Dec', sales: 8000 },    
+    { name: 'Mar', sales: 2000 },
+    { name: 'Apr', sales: 2780 },
+    { name: 'May', sales: 1890 },
+    { name: 'Jun', sales: 2390 },
   ];
 
   return (
-    <div className="flex bg-brand-paper min-h-screen">
+    <div className="flex bg-gray-50 min-h-screen">
       <AdminSidebar />
       
-      <main className="flex-grow p-12 lg:p-20 overflow-y-auto">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
+      <main className="flex-grow p-8 overflow-y-auto">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
-            <div className="flex items-baseline gap-4 mb-4">
-              <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">Management Console</span>
-              <div className="h-px w-12 bg-brand-gold/30"></div>
-            </div>
-            <h1 className="text-6xl font-display font-bold uppercase tracking-tighter">MEHER Intel</h1>
+            <h1 className="text-2xl font-bold">Dashboard</h1>
+            <p className="text-gray-500 text-sm">Overview of your store's performance</p>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <button 
               onClick={() => navigate('/admin/products')}
-              className="flex items-center gap-3 bg-brand-ink text-white px-8 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand-gold transition-all shadow-xl shadow-black/10"
+              className="flex items-center gap-2 bg-brand-ink text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-800 transition-all"
             >
-              <Plus size={16} /> Add New Product
+              <Plus size={16} /> New Product
             </button>
             <button 
               onClick={() => navigate('/admin/settings')}
-              className="p-4 bg-brand-beige/30 rounded-2xl hover:bg-brand-beige transition-colors"
+              className="p-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
             >
-              <Settings size={20} strokeWidth={1.5} />
+              <Settings size={18} className="text-gray-600" />
             </button>
           </div>
         </header>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {[
-            { label: 'Revenue', value: `৳${stats.totalRevenue.toLocaleString()}`, icon: DollarSign, trend: '+12.5%', color: 'text-emerald-600' },
-            { label: 'Orders', value: stats.totalOrders, icon: ShoppingBag, trend: '+8.2%', color: 'text-brand-gold' },
-            { label: 'Inventory', value: stats.totalProducts, icon: Package, trend: '-2.4%', color: 'text-brand-ink' },
-            { label: 'Customers', value: stats.totalCustomers, icon: Users, trend: '+15.1%', color: 'text-indigo-600' },
+            { label: 'Revenue', value: `৳${stats.totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+            { label: 'Orders', value: stats.totalOrders.toLocaleString(), icon: ShoppingBag, color: 'text-blue-600', bg: 'bg-blue-50' },
+            { label: 'Inventory', value: stats.totalProducts.toLocaleString(), icon: Package, color: 'text-amber-600', bg: 'bg-amber-50' },
+            { label: 'Customers', value: stats.totalCustomers.toLocaleString(), icon: Users, color: 'text-indigo-600', bg: 'bg-indigo-50' },
           ].map((stat, idx) => (
             <motion.div 
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white p-10 rounded-[2.5rem] border border-black/5 shadow-2xl shadow-black/5 group hover:border-brand-gold transition-all duration-500"
+              className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm"
             >
-              <div className="flex justify-between items-start mb-10">
-                <div className={`w-14 h-14 bg-brand-beige/30 ${stat.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                  <stat.icon size={24} strokeWidth={1.5} />
-                </div>
-                <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-1 rounded-lg">
-                  <ArrowUpRight size={12} /> {stat.trend}
+              <div className="flex justify-between items-start mb-4">
+                <div className={`w-10 h-10 ${stat.bg} ${stat.color} rounded-lg flex items-center justify-center`}>
+                  <stat.icon size={20} />
                 </div>
               </div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30 mb-2">{stat.label}</p>
-              <h3 className="text-4xl font-display font-bold tracking-tighter">{stat.value}</h3>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">{stat.label}</p>
+              <h3 className="text-xl font-bold">{stat.value}</h3>
             </motion.div>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Chart Section */}
-          <div className="lg:col-span-8 space-y-8">
-            <div className="bg-white p-12 rounded-[3.5rem] border border-black/5 shadow-2xl shadow-black/5">
-              <div className="flex justify-between items-center mb-16">
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-brand-gold mb-2">Revenue Analytics</h3>
-                  <p className="text-2xl font-display font-bold uppercase tracking-tight">Performance Overview</p>
-                </div>
-                <div className="flex gap-4">
+          <div className="lg:col-span-8">
+            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm h-full">
+              <div className="flex justify-between items-center mb-8">
+                <h3 className="text-sm font-bold">Revenue Analytics</h3>
+                <div className="flex gap-2">
                   {['Weekly', 'Monthly', 'Yearly'].map(period => (
-                    <button key={period} className={`text-[10px] font-bold uppercase tracking-widest px-6 py-3 rounded-xl transition-all ${period === 'Monthly' ? 'bg-brand-ink text-white' : 'bg-brand-beige/30 text-brand-ink/40 hover:bg-brand-beige'}`}>
+                    <button key={period} className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg transition-all ${period === 'Monthly' ? 'bg-brand-ink text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
                       {period}
                     </button>
                   ))}
                 </div>
               </div>
-              <div className="h-[400px] w-full">
+              <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={data}>
                     <defs>
                       <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#C5A059" stopOpacity={0.1}/>
-                        <stop offset="95%" stopColor="#C5A059" stopOpacity={0}/>
+                        <stop offset="5%" stopColor="#1A1A1A" stopOpacity={0.1}/>
+                        <stop offset="95%" stopColor="#1A1A1A" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f5f5f5" />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#999', fontWeight: 'bold' }} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#999', fontWeight: 'bold' }} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#999' }} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#999' }} />
                     <Tooltip 
-                      contentStyle={{ backgroundColor: '#fff', borderRadius: '24px', border: 'none', boxShadow: '0 20px 50px -10px rgba(0,0,0,0.1)', padding: '20px' }}
+                      contentStyle={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #f0f0f0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}
                     />
-                    <Area type="monotone" dataKey="sales" stroke="#C5A059" strokeWidth={4} fillOpacity={1} fill="url(#colorSales)" />
+                    <Area type="monotone" dataKey="sales" stroke="#1A1A1A" strokeWidth={2} fillOpacity={1} fill="url(#colorSales)" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -163,53 +151,51 @@ const AdminDashboard: React.FC = () => {
           </div>
 
           {/* Sidebar Section */}
-          <div className="lg:col-span-4 space-y-12">
+          <div className="lg:col-span-4 space-y-8">
             {/* Recent Orders */}
-            <div className="bg-white p-12 rounded-[3.5rem] border border-black/5 shadow-2xl shadow-black/5">
-              <div className="flex justify-between items-center mb-12">
-                <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-brand-gold">Live Feed</h3>
-                <button className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/30 hover:text-brand-ink">View All</button>
+            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-sm font-bold">Recent Orders</h3>
+                <button onClick={() => navigate('/admin/orders')} className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-brand-ink">View All</button>
               </div>
-              <div className="space-y-10">
+              <div className="space-y-6">
                 {recentOrders.map((order) => (
-                  <div key={order.id} className="flex items-center gap-6 group cursor-pointer">
-                    <div className="w-14 h-14 bg-brand-beige/30 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-brand-gold group-hover:text-white transition-all duration-500">
-                      <ShoppingBag size={20} strokeWidth={1.5} />
+                  <div key={order.id} className="flex items-center gap-4 group cursor-pointer" onClick={() => navigate('/admin/orders')}>
+                    <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-brand-ink group-hover:text-white transition-all">
+                      <ShoppingBag size={18} />
                     </div>
                     <div className="flex-grow min-w-0">
-                      <p className="text-sm font-bold uppercase tracking-tight truncate mb-1">{order.customerName}</p>
-                      <p className="text-[10px] font-bold text-brand-ink/30 tracking-widest">৳{order.totalPrice.toLocaleString()} • {order.status}</p>
+                      <p className="text-xs font-bold truncate mb-0.5">{order.customerName}</p>
+                      <p className="text-[10px] text-gray-500">৳{order.totalPrice.toLocaleString()} • {order.status}</p>
                     </div>
-                    <div className="w-8 h-8 rounded-full border border-black/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ArrowUpRight size={14} className="text-brand-gold" />
-                    </div>
+                    <ArrowUpRight size={14} className="text-gray-300 group-hover:text-brand-ink transition-colors" />
                   </div>
                 ))}
                 {recentOrders.length === 0 && (
-                  <div className="text-center py-20">
-                    <Clock size={32} className="mx-auto text-brand-ink/10 mb-4" />
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">Awaiting activity</p>
+                  <div className="text-center py-12">
+                    <Clock size={24} className="mx-auto text-gray-200 mb-2" />
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">No recent activity</p>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-brand-ink p-12 rounded-[3.5rem] text-white shadow-2xl shadow-black/20">
-              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-brand-gold mb-8">Quick Actions</h3>
-              <div className="grid grid-cols-2 gap-4">
+            <div className="bg-brand-ink p-6 rounded-xl text-white shadow-lg shadow-black/10">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Quick Actions</h3>
+              <div className="grid grid-cols-2 gap-3">
                 <button 
                   onClick={() => navigate('/admin/categories')}
-                  className="flex flex-col items-center justify-center gap-4 p-6 bg-white/5 rounded-3xl hover:bg-white/10 transition-all border border-white/5"
+                  className="flex flex-col items-center justify-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all border border-white/5"
                 >
-                  <Layers size={20} className="text-brand-gold" />
+                  <Layers size={18} className="text-gray-300" />
                   <span className="text-[8px] font-bold uppercase tracking-widest">Categories</span>
                 </button>
                 <button 
                   onClick={() => navigate('/admin/settings')}
-                  className="flex flex-col items-center justify-center gap-4 p-6 bg-white/5 rounded-3xl hover:bg-white/10 transition-all border border-white/5"
+                  className="flex flex-col items-center justify-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all border border-white/5"
                 >
-                  <Settings size={20} className="text-brand-gold" />
+                  <Settings size={18} className="text-gray-300" />
                   <span className="text-[8px] font-bold uppercase tracking-widest">Settings</span>
                 </button>
               </div>

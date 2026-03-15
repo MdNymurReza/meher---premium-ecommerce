@@ -146,24 +146,20 @@ const AdminProducts: React.FC = () => {
   );
 
   return (
-    <div className="flex bg-brand-beige/30 min-h-screen">
+    <div className="flex bg-gray-50 min-h-screen">
       <AdminSidebar />
       
-      <main className="flex-grow p-16">
-        <header className="mb-20">
-          <div className="flex items-baseline gap-4 mb-4">
-            <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-xs">Inventory</span>
-            <div className="h-px flex-grow bg-black/5"></div>
-          </div>
-          <div className="flex justify-between items-end">
-            <h1 className="text-6xl font-display font-bold uppercase tracking-tighter">Product Archive</h1>
-            <div className="flex gap-6">
-              <div className="relative w-80">
-                <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-brand-ink/20" size={16} />
+      <main className="flex-grow p-8">
+        <header className="mb-8">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold">Products</h1>
+            <div className="flex gap-4">
+              <div className="relative w-64">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                 <input 
                   type="text" 
-                  placeholder="SEARCH PRODUCTS..." 
-                  className="w-full bg-white border border-black/5 rounded-2xl pl-14 pr-6 py-4 text-[10px] font-bold uppercase tracking-widest focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all shadow-2xl shadow-black/5"
+                  placeholder="Search products..." 
+                  className="w-full bg-white border border-gray-200 rounded-lg pl-10 pr-4 py-2 text-xs focus:ring-1 focus:ring-brand-ink outline-none transition-all"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -180,77 +176,79 @@ const AdminProducts: React.FC = () => {
                   setImageUrlInput('');
                   setIsModalOpen(true);
                 }}
-                className="premium-button-primary flex items-center gap-3 px-8 h-14 text-[10px] tracking-[0.2em]"
+                className="bg-brand-ink text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-800 transition-all flex items-center gap-2"
               >
-                <Plus size={18} strokeWidth={2} /> ADD PRODUCT
+                <Plus size={16} /> Add Product
               </button>
             </div>
           </div>
         </header>
 
         {/* Product Table */}
-        <div className="bg-white rounded-[3rem] border border-black/5 overflow-hidden shadow-2xl shadow-black/5">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-brand-beige/30 border-b border-black/5">
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Product</th>
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Category</th>
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Price</th>
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Stock</th>
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30">Status</th>
-                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/30 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-black/5">
-              {filteredProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-brand-beige/10 transition-colors group">
-                  <td className="px-10 py-8">
-                    <div className="flex items-center gap-6">
-                      <div className="w-16 aspect-[3/4] rounded-xl overflow-hidden bg-brand-beige/50 flex-shrink-0">
-                        {product.images && product.images[0] ? (
-                          <img src={product.images[0]} alt="" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-brand-ink/10">
-                            <Plus size={20} />
-                          </div>
-                        )}
-                      </div>
-                      <span className="text-xs font-bold uppercase tracking-tight">{product.name}</span>
-                    </div>
-                  </td>
-                  <td className="px-10 py-8 text-[10px] font-bold text-brand-ink/30 uppercase tracking-widest">{product.category}</td>
-                  <td className="px-10 py-8 font-display font-bold text-lg tracking-tighter">৳{product.price.toLocaleString()}</td>
-                  <td className="px-10 py-8 text-[10px] font-bold uppercase tracking-widest">{product.stock}</td>
-                  <td className="px-10 py-8">
-                    <span className={`text-[8px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border ${
-                      product.stock > 0 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'
-                    }`}>
-                      {product.stock > 0 ? 'Available' : 'Sold Out'}
-                    </span>
-                  </td>
-                  <td className="px-10 py-8">
-                    <div className="flex justify-end gap-3">
-                      <button 
-                        onClick={() => openEditModal(product)} 
-                        className="p-3 bg-brand-beige/30 text-brand-ink/40 hover:bg-brand-ink hover:text-white rounded-xl transition-all"
-                      >
-                        <Edit2 size={16} strokeWidth={1.5} />
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(product.id)} 
-                        className="p-3 bg-rose-50 text-rose-400 hover:bg-rose-500 hover:text-white rounded-xl transition-all"
-                      >
-                        <Trash2 size={16} strokeWidth={1.5} />
-                      </button>
-                    </div>
-                  </td>
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">Product</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">Category</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">Price</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">Stock</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">Status</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500 text-right">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {filteredProducts.map((product) => (
+                  <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 aspect-[3/4] rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                          {product.images && product.images[0] ? (
+                            <img src={product.images[0]} alt="" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-300">
+                              <Plus size={16} />
+                            </div>
+                          )}
+                        </div>
+                        <span className="text-xs font-bold">{product.name}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{product.category}</td>
+                    <td className="px-6 py-4 font-bold text-sm">৳{product.price.toLocaleString()}</td>
+                    <td className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest">{product.stock}</td>
+                    <td className="px-6 py-4">
+                      <span className={`text-[8px] font-bold px-2 py-1 rounded-full uppercase tracking-widest border ${
+                        product.stock > 0 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'
+                      }`}>
+                        {product.stock > 0 ? 'Available' : 'Sold Out'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex justify-end gap-2">
+                        <button 
+                          onClick={() => openEditModal(product)} 
+                          className="p-2 text-gray-400 hover:text-brand-ink transition-all"
+                        >
+                          <Edit2 size={16} />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(product.id)} 
+                          className="p-2 text-gray-400 hover:text-rose-500 transition-all"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {filteredProducts.length === 0 && !loading && (
-            <div className="text-center py-32">
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-ink/20">No products found in archive</p>
+            <div className="text-center py-20">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">No products found</p>
             </div>
           )}
         </div>
@@ -264,115 +262,108 @@ const AdminProducts: React.FC = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setIsModalOpen(false)}
-                className="absolute inset-0 bg-brand-ink/60 backdrop-blur-md"
+                className="absolute inset-0 bg-black/40 backdrop-blur-sm"
               ></motion.div>
               
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95, y: 40 }}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 40 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="relative bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-[3rem] shadow-2xl p-16 scrollbar-hide"
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="relative bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl p-8 lg:p-12"
               >
-                <button onClick={() => setIsModalOpen(false)} className="absolute top-10 right-10 p-3 hover:bg-brand-beige rounded-full transition-colors">
-                  <X size={24} strokeWidth={1.5} />
+                <button onClick={() => setIsModalOpen(false)} className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-colors">
+                  <X size={20} />
                 </button>
 
-                <div className="mb-12">
-                  <div className="flex items-baseline gap-4 mb-4">
-                    <span className="text-brand-gold font-bold tracking-[0.3em] uppercase text-[10px]">Product Details</span>
-                    <div className="h-px flex-grow bg-black/5"></div>
-                  </div>
-                  <h2 className="text-4xl font-display font-bold uppercase tracking-tighter">{editingProduct ? 'Edit Archive' : 'New Entry'}</h2>
+                <div className="mb-8">
+                  <h2 className="text-xl font-bold">{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
                 </div>
 
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                  <div className="space-y-8">
+                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-6">
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Product Name</label>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Product Name</label>
                       <input 
                         type="text" required 
-                        className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all" 
+                        className="input-field" 
                         value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Category</label>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Category</label>
                       <select 
-                        className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all appearance-none" 
+                        className="input-field appearance-none" 
                         value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}
                       >
                         {categories.map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Description</label>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Description</label>
                       <textarea 
                         required rows={4} 
-                        className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all resize-none" 
+                        className="input-field resize-none" 
                         value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
                       />
                     </div>
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Price (৳)</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Price (৳)</label>
                         <input 
                           type="number" required 
-                          className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all" 
+                          className="input-field" 
                           value={formData.price} onChange={e => setFormData({...formData, price: Number(e.target.value)})}
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Stock</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Stock</label>
                         <input 
                           type="number" required 
-                          className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all" 
+                          className="input-field" 
                           value={formData.stock} onChange={e => setFormData({...formData, stock: Number(e.target.value)})}
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="space-y-8">
+                  <div className="space-y-6">
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Visuals</label>
-                      <div className="grid grid-cols-3 gap-4 mb-4">
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Images</label>
+                      <div className="grid grid-cols-3 gap-3 mb-4">
                         {formData.images.map((url, idx) => (
-                          url ? (
-                            <div key={idx} className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-black/5 shadow-lg">
-                              <img src={url} alt="" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                              <button 
-                                type="button"
-                                onClick={() => setFormData(prev => ({ ...prev, images: prev.images.filter((_, i) => i !== idx) }))}
-                                className="absolute top-2 right-2 p-1.5 bg-rose-500 text-white rounded-full shadow-xl"
-                              >
-                                <X size={10} strokeWidth={3} />
-                              </button>
-                            </div>
-                          ) : null
+                          <div key={idx} className="relative aspect-[3/4] rounded-lg overflow-hidden border border-gray-100 shadow-sm">
+                            <img src={url} alt="" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                            <button 
+                              type="button"
+                              onClick={() => setFormData(prev => ({ ...prev, images: prev.images.filter((_, i) => i !== idx) }))}
+                              className="absolute top-1 right-1 p-1 bg-rose-500 text-white rounded-full shadow-lg"
+                            >
+                              <X size={10} />
+                            </button>
+                          </div>
                         ))}
-                        <label className="aspect-[3/4] rounded-2xl border-2 border-dashed border-black/10 flex flex-col items-center justify-center cursor-pointer hover:border-brand-gold hover:bg-brand-gold/5 transition-all group">
-                          <Upload size={24} className="text-brand-ink/20 mb-2 group-hover:text-brand-gold transition-colors" strokeWidth={1.5} />
-                          <span className="text-[8px] font-bold uppercase tracking-widest text-brand-ink/40">Add Image</span>
+                        <label className="aspect-[3/4] rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-brand-ink hover:bg-gray-50 transition-all group">
+                          <Upload size={20} className="text-gray-300 mb-1 group-hover:text-brand-ink transition-colors" />
+                          <span className="text-[8px] font-bold uppercase tracking-widest text-gray-400">Upload</span>
                           <input type="file" multiple className="hidden" onChange={handleImageUpload} accept="image/*" />
                         </label>
                       </div>
-                      {isUploading && <p className="text-[10px] font-bold text-brand-gold animate-pulse uppercase tracking-widest">Processing Upload...</p>}
+                      {isUploading && <p className="text-[10px] font-bold text-brand-ink animate-pulse uppercase tracking-widest">Uploading...</p>}
                       
-                      <div className="mt-6">
-                        <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Or Add Image URL</label>
-                        <div className="flex gap-3">
+                      <div className="mt-4">
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Or Image URL</label>
+                        <div className="flex gap-2">
                           <input 
                             type="text" 
-                            className="flex-grow bg-brand-beige/20 border-none rounded-2xl px-6 py-4 text-[10px] font-bold outline-none focus:ring-2 focus:ring-brand-gold/20 transition-all placeholder:text-brand-ink/20" 
-                            placeholder="HTTPS://CLOUDINARY.COM/IMAGE.JPG"
+                            className="input-field py-2" 
+                            placeholder="https://example.com/image.jpg"
                             value={imageUrlInput}
                             onChange={(e) => setImageUrlInput(e.target.value)}
                           />
                           <button 
                             type="button"
                             onClick={handleAddImageUrl}
-                            className="bg-brand-ink text-white px-6 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand-gold transition-colors"
+                            className="bg-brand-ink text-white px-4 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors"
                           >
                             Add
                           </button>
@@ -381,10 +372,10 @@ const AdminProducts: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Sizes (Comma Separated)</label>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Sizes (Comma Separated)</label>
                       <input 
                         type="text" 
-                        className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all placeholder:text-brand-ink/20" 
+                        className="input-field" 
                         placeholder="S, M, L, XL"
                         value={sizesInput} 
                         onChange={e => setSizesInput(e.target.value)}
@@ -392,20 +383,20 @@ const AdminProducts: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/40 mb-3">Colors (Comma Separated)</label>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Colors (Comma Separated)</label>
                       <input 
                         type="text" 
-                        className="w-full bg-brand-beige/20 border-none rounded-2xl px-6 py-5 text-sm font-bold focus:ring-2 focus:ring-brand-gold/20 outline-none transition-all placeholder:text-brand-ink/20" 
-                        placeholder="GOLD, SILVER, BLACK"
+                        className="input-field" 
+                        placeholder="Gold, Silver, Black"
                         value={colorsInput} 
                         onChange={e => setColorsInput(e.target.value)}
                       />
                     </div>
                   </div>
 
-                  <div className="md:col-span-2 pt-12">
-                    <button type="submit" className="w-full premium-button-primary h-20 text-sm tracking-[0.3em]">
-                      {editingProduct ? 'UPDATE PRODUCT' : 'ADD TO SITE'}
+                  <div className="md:col-span-2 pt-6">
+                    <button type="submit" className="w-full button-primary py-4">
+                      {editingProduct ? 'Update Product' : 'Add Product'}
                     </button>
                   </div>
                 </form>
