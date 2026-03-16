@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
+import { WishlistProvider } from './contexts/WhishlistContex';
 
 // Components
 import Navbar from './components/Navbar';
@@ -44,8 +45,9 @@ const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 export default function App() {
   return (
     <AuthProvider>
-      <CartProvider>
-        <Router>
+      <WishlistProvider>
+        <CartProvider>
+          <Router>
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-grow">
@@ -77,6 +79,7 @@ export default function App() {
           </div>
         </Router>
       </CartProvider>
+      </WishlistProvider>
     </AuthProvider>
   );
 }

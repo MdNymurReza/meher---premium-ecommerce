@@ -65,6 +65,7 @@ export interface Order {
   subtotal: number;
   discountCode?: string;
   discountAmount?: number;
+  shippingCost?: number;
   totalPrice: number;
   paymentMethod: 'COD' | 'bKash';
   transactionId?: string;

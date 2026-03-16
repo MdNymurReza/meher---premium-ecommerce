@@ -5,15 +5,18 @@ import { db } from '../lib/firebase';
 import { Product, Review } from '../types';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useWishlist } from '../contexts/WhishlistContex';
 import { ShoppingCart, Heart, Share2, ChevronLeft, Star, MessageSquare, Send, Check, X, Shield, Truck, RotateCcw, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { format } from 'date-fns';
+import ReactMarkdown from 'react-markdown';
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { user, profile } = useAuth();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const [product, setProduct] = useState<Product | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
@@ -25,6 +28,7 @@ const ProductDetails: React.FC = () => {
   const [added, setAdded] = useState(false);
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
   const [submittingReview, setSubmittingReview] = useState(false);
+  const [activeTab, setActiveTab] = useState<'description' | 'details' | 'shipping'>('description');
 
   const averageRating = reviews.length > 0 
     ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
@@ -206,9 +210,92 @@ const ProductDetails: React.FC = () => {
             )}
           </div>
 
-          <p className="text-gray-600 text-sm leading-relaxed">
-            {product.description}
-          </p>
+          {/* Tabs Section */}
+          <div className="pt-6 border-t border-gray-100">
+            <div className="flex gap-8 border-b border-gray-100 mb-6">
+              {[
+                { id: 'description', label: 'Description' },
+                { id: 'details', label: 'Details' },
+                { id: 'shipping', label: 'Shipping' }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`pb-4 text-xs font-bold uppercase tracking-widest transition-all relative ${
+                    activeTab === tab.id ? 'text-brand-ink' : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  {tab.label}
+                  {activeTab === tab.id && (
+                    <motion.div 
+                      layoutId="activeTab"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-ink"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            <div className="min-h-[150px]">
+              {activeTab === 'description' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="markdown-body"
+                >
+                  <ReactMarkdown>{product.description}</ReactMarkdown>
+                </motion.div>
+              )}
+
+              {activeTab === 'details' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-4"
+                >
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Category</p>
+                      <p className="text-xs font-bold">{product.category}</p>
+                    </div>
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Availability</p>
+                      <p className="text-xs font-bold text-emerald-600">{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</p>
+                    </div>
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Sizes</p>
+                      <p className="text-xs font-bold">{product.sizes?.join(', ') || 'N/A'}</p>
+                    </div>
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Colors</p>
+                      <p className="text-xs font-bold">{product.colors?.join(', ') || 'N/A'}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {activeTab === 'shipping' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-4 text-xs text-gray-600 leading-relaxed"
+                >
+                  <div className="flex gap-3">
+                    <Truck size={16} className="text-brand-ink flex-shrink-0" />
+                    <p><strong>Standard Delivery:</strong> 3-5 business days within Dhaka, 5-7 days outside Dhaka.</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <Shield size={16} className="text-brand-ink flex-shrink-0" />
+                    <p><strong>Secure Packaging:</strong> All items are carefully inspected and packed to ensure they reach you in perfect condition.</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <RotateCcw size={16} className="text-brand-ink flex-shrink-0" />
+                    <p><strong>Returns:</strong> 7-day easy return policy for unused items with original tags and packaging.</p>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </div>
 
           <div className="space-y-6 pt-6 border-t border-gray-100">
             {/* Size Selection */}
@@ -271,6 +358,16 @@ const ProductDetails: React.FC = () => {
                 ) : (
                   <><ShoppingCart size={18} /> {product.stock === 0 ? 'Sold Out' : 'Add to Cart'}</>
                 )}
+              </button>
+              <button 
+                onClick={() => product && toggleWishlist(product.id)}
+                className={`w-12 h-12 rounded-lg border flex items-center justify-center transition-all ${
+                  product && isInWishlist(product.id) 
+                    ? 'bg-rose-50 border-rose-100 text-rose-500' 
+                    : 'border-gray-200 text-gray-400 hover:border-brand-ink hover:text-brand-ink'
+                }`}
+              >
+                <Heart size={20} fill={product && isInWishlist(product.id) ? "currentColor" : "none"} />
               </button>
             </div>
           </div>

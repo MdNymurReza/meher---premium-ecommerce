@@ -299,10 +299,17 @@ const AdminProducts: React.FC = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Description</label>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400">Description</label>
+                        <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">Supports Markdown</span>
+                      </div>
                       <textarea 
-                        required rows={4} 
-                        className="input-field resize-none" 
+                        required rows={8} 
+                        className="input-field resize-none font-mono text-xs" 
+                        placeholder="Use markdown for formatting. Example:
+**Bold Text**
+- Bullet point 1
+- Bullet point 2"
                         value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
                       />
                     </div>

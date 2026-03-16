@@ -3,7 +3,8 @@ import AdminSidebar from '../../components/AdminSidebar';
 import { collection, getDocs, doc, updateDoc, orderBy, query } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { Order, OrderStatus } from '../../types';
-import { Search, Eye, CheckCircle, Truck, Package, XCircle, Clock, X } from 'lucide-react';
+import { Search, Eye, CheckCircle, Truck, Package, XCircle, Clock, X, FileText } from 'lucide-react';
+import { generateInvoice } from '../../utils/invoice';
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -262,6 +263,13 @@ const AdminOrders: React.FC = () => {
                 </div>
 
                 <div className="p-6 border-t border-gray-100 flex justify-end gap-3">
+                  <button 
+                    onClick={() => generateInvoice(selectedOrder)}
+                    className="flex items-center gap-2 px-4 py-2 border border-brand-ink text-brand-ink rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-brand-ink hover:text-white transition-all mr-auto"
+                  >
+                    <FileText size={14} />
+                    Download Invoice
+                  </button>
                   <button 
                     onClick={() => setSelectedOrder(null)}
                     className="px-6 py-2 border border-gray-200 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-gray-50 transition-all"

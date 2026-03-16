@@ -4,8 +4,7 @@ import { Heart, ArrowUpRight } from 'lucide-react';
 import { Product } from '../types';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { useWishlist } from '../contexts/WhishlistContex';
 import { motion } from 'motion/react';
 
 interface ProductCardProps {
@@ -13,28 +12,19 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { profile, user } = useAuth();
+  const { user } = useAuth();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const navigate = useNavigate();
   
-  const isWishlisted = profile?.wishlist?.includes(product.id);
+  const isWishlisted = isInWishlist(product.id);
 
-  const toggleWishlist = async (e: React.MouseEvent) => {
+  const handleToggleWishlist = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (!user) {
       navigate('/login');
       return;
     }
-
-    const userRef = doc(db, 'users', user.uid);
-    try {
-      if (isWishlisted) {
-        await updateDoc(userRef, { wishlist: arrayRemove(product.id) });
-      } else {
-        await updateDoc(userRef, { wishlist: arrayUnion(product.id) });
-      }
-    } catch (error) {
-      console.error("Error updating wishlist:", error);
-    }
+    await toggleWishlist(product.id);
   };
 
   return (
@@ -67,7 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Wishlist Button */}
         <button 
-          onClick={toggleWishlist}
+          onClick={handleToggleWishlist}
           className={`absolute top-3 right-3 w-10 h-10 rounded-full flex items-center justify-center transition-all ${isWishlisted ? 'bg-brand-ink text-white' : 'bg-white/90 text-gray-400 hover:text-brand-ink shadow-sm'}`}
         >
           <Heart size={18} fill={isWishlisted ? "currentColor" : "none"} />

@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { collection, addDoc, serverTimestamp, doc, updateDoc, increment, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2, CreditCard, Truck, ShieldCheck, Tag, X } from 'lucide-react';
+import { CheckCircle2, CreditCard, Truck, ShieldCheck, Tag, X, Copy, Check } from 'lucide-react';
 import { Discount } from '../types';
 
 const Checkout: React.FC = () => {
@@ -14,6 +14,14 @@ const Checkout: React.FC = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const bkashNumber = "01700000000";
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(bkashNumber);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
   const [orderComplete, setOrderComplete] = useState(false);
   const [formData, setFormData] = useState({
     name: profile?.name || '',
@@ -260,6 +268,21 @@ const Checkout: React.FC = () => {
                     animate={{ height: 'auto', opacity: 1 }}
                     className="mt-4 pt-4 border-t border-gray-200"
                   >
+                    <div className="bg-brand-ink/5 p-3 rounded-lg mb-4">
+                      <p className="text-[10px] text-gray-600 leading-relaxed">
+                        Please send the total amount to the number below using <span className="font-bold">Send Money</span>.
+                      </p>
+                      <div className="flex items-center justify-between mt-2 bg-white p-2 rounded border border-brand-ink/10">
+                        <span className="text-xs font-bold font-mono">{bkashNumber}</span>
+                        <button 
+                          type="button"
+                          onClick={copyToClipboard}
+                          className="text-brand-ink hover:text-gray-600 transition-colors"
+                        >
+                          {isCopied ? <Check size={14} /> : <Copy size={14} />}
+                        </button>
+                      </div>
+                    </div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2">Transaction ID</label>
                     <input 
                       type="text" 

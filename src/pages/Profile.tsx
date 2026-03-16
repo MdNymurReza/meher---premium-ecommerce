@@ -3,7 +3,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Order } from '../types';
-import { Package, MapPin, Phone, Calendar, ShoppingBag, ChevronRight, Clock, CheckCircle, Truck, XCircle, Tag, Heart, RefreshCw } from 'lucide-react';
+import { Package, MapPin, Phone, Calendar, ShoppingBag, ChevronRight, Clock, CheckCircle, Truck, XCircle, Tag, Heart, RefreshCw, FileText } from 'lucide-react';
+import { generateInvoice } from '../utils/invoice';
 import { format } from 'date-fns';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
@@ -197,6 +198,13 @@ const Profile: React.FC = () => {
                       </div>
                       <div className="flex flex-col items-end justify-end">
                         <div className="text-right space-y-1">
+                          <button 
+                            onClick={() => generateInvoice(order)}
+                            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-brand-ink hover:text-gray-600 transition-colors mb-4"
+                          >
+                            <FileText size={14} />
+                            Download Invoice
+                          </button>
                           <div className="flex justify-end gap-8 text-[10px] text-gray-500">
                             <span>Subtotal</span>
                             <span>৳{order.subtotal?.toLocaleString() || order.totalPrice.toLocaleString()}</span>
