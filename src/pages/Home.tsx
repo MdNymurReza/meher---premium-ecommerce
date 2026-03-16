@@ -13,7 +13,7 @@ const Home: React.FC = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [settings, setSettings] = useState<SiteSettings>({
     heroImage: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=2000',
-    heroHeading: 'MEHER MALA',
+    heroHeading: 'Meher Mala',
     heroSubheading: 'A sanctuary of timeless elegance. Handcrafted jewellery and premium apparel for the discerning soul.',
     marqueeText: ['Handcrafted Excellence', 'Premium Materials', 'Timeless Design'],
     brandStoryImage: 'https://images.unsplash.com/photo-1573408302185-912757078a7b?auto=format&fit=crop&q=80&w=1000',
@@ -101,7 +101,7 @@ const Home: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-sm">Fast Shipping</h3>
-                <p className="text-xs text-gray-500">All Bangladesh delivery to your doorstep</p>
+                <p className="text-xs text-gray-500">Global delivery to your doorstep</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -127,6 +127,7 @@ const Home: React.FC = () => {
       </section>
 
       
+      
       {/* Marquee - Refined */}
       <div className="w-full py-10 bg-brand-ink overflow-hidden whitespace-nowrap border-y border-white/5">
         <div className="flex animate-marquee">
@@ -143,12 +144,13 @@ const Home: React.FC = () => {
         </div>
       </div>
 
+
       {/* Categories */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
             <h2 className="text-3xl font-bold">Shop by Category</h2>
-            <p className="text-gray-500 mt-2">Explore our collections</p>
+            <p className="text-gray-500 mt-2">Explore our curated collections</p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -159,7 +161,7 @@ const Home: React.FC = () => {
                 className="relative group overflow-hidden rounded-xl aspect-[4/5]"
               >
                 <img 
-                  src={`https://picsum.photos/seed/${cat.name.toLowerCase()}/800/1000`} 
+                  src={cat.image || `https://picsum.photos/seed/${cat.name.toLowerCase()}/800/1000`} 
                   alt={cat.name} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                   referrerPolicy="no-referrer" 

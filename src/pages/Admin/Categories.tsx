@@ -11,6 +11,7 @@ const AdminCategories: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [newCategoryImage, setNewCategoryImage] = useState('');
 
   useEffect(() => {
     fetchCategories();
@@ -36,11 +37,13 @@ const AdminCategories: React.FC = () => {
     try {
       await addDoc(collection(db, 'categories'), {
         name: newCategoryName.trim(),
+        image: newCategoryImage.trim() || 'https://picsum.photos/seed/category/800/600',
         createdAt: serverTimestamp()
       });
       
       setIsModalOpen(false);
       setNewCategoryName('');
+      setNewCategoryImage('');
       fetchCategories();
     } catch (error) {
       console.error("Error saving category:", error);
@@ -84,23 +87,27 @@ const AdminCategories: React.FC = () => {
                 key={category.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between group"
+                className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden group"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-gray-100 text-gray-500 rounded-lg flex items-center justify-center">
-                    <Layers size={20} />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold">{category.name}</h3>
-                    <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Category</p>
-                  </div>
+                <div className="h-32 w-full overflow-hidden relative">
+                  <img 
+                    src={category.image || 'https://picsum.photos/seed/category/800/600'} 
+                    alt={category.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                  <button 
+                    onClick={() => handleDelete(category.id)}
+                    className="absolute top-2 right-2 p-2 bg-white/90 backdrop-blur-sm text-gray-400 hover:text-rose-500 rounded-lg shadow-sm transition-all opacity-0 group-hover:opacity-100"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 </div>
-                <button 
-                  onClick={() => handleDelete(category.id)}
-                  className="p-2 text-gray-400 hover:text-rose-500 transition-all"
-                >
-                  <Trash2 size={16} />
-                </button>
+                <div className="p-4">
+                  <h3 className="text-sm font-bold">{category.name}</h3>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Category</p>
+                </div>
               </motion.div>
             ))}
             
@@ -149,6 +156,17 @@ const AdminCategories: React.FC = () => {
                         placeholder="e.g. Accessories"
                         value={newCategoryName}
                         onChange={(e) => setNewCategoryName(e.target.value)}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Category Image URL</label>
+                      <input 
+                        type="url" 
+                        className="input-field" 
+                        placeholder="https://images.unsplash.com/..."
+                        value={newCategoryImage}
+                        onChange={(e) => setNewCategoryImage(e.target.value)}
                       />
                     </div>
 

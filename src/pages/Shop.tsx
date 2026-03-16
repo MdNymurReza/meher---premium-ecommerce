@@ -35,15 +35,17 @@ const Shop: React.FC = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        let q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
-        
-        if (category !== 'All') {
-          q = query(collection(db, 'products'), where('category', '==', category), orderBy('createdAt', 'desc'));
-        }
-
+        // Fetch all products and sort by date in memory to avoid index requirements
+        const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
         let productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
 
+        // Filter by category in memory
+        if (category !== 'All') {
+          productsData = productsData.filter(p => p.category === category);
+        }
+
+        // Filter by search query
         if (searchQuery) {
           productsData = productsData.filter(p => 
             p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -51,6 +53,7 @@ const Shop: React.FC = () => {
           );
         }
 
+        // Apply sorting
         if (sortBy === 'price-low') {
           productsData.sort((a, b) => a.price - b.price);
         } else if (sortBy === 'price-high') {
