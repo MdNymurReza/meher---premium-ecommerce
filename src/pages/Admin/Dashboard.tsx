@@ -18,6 +18,7 @@ const AdminDashboard: React.FC = () => {
     totalCustomers: 0,
     pendingOrders: 0
   });
+  const [chartData, setChartData] = useState<{ name: string; sales: number }[]>([]);
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,16 +30,39 @@ const AdminDashboard: React.FC = () => {
         const usersSnap = await getDocs(collection(db, 'users'));
         const pendingSnap = await getDocs(query(collection(db, 'orders'), where('status', '==', 'Pending')));
 
-        const orders = ordersSnap.docs.map(doc => doc.data() as Order);
-        const revenue = orders.reduce((sum, o) => sum + o.totalPrice, 0);
+        const allOrders = ordersSnap.docs.map(doc => doc.data() as Order);
+        const deliveredOrders = allOrders.filter(o => o.status === 'Delivered');
+        const revenue = deliveredOrders.reduce((sum, o) => sum + o.totalPrice, 0);
 
         setStats({
           totalRevenue: revenue,
-          totalOrders: ordersSnap.size,
+          totalOrders: deliveredOrders.length,
           totalProducts: productsSnap.size,
           totalCustomers: usersSnap.size,
           pendingOrders: pendingSnap.size
         });
+
+        // Generate chart data for the last 6 months
+        const months = [];
+        for (let i = 5; i >= 0; i--) {
+          const d = new Date();
+          d.setMonth(d.getMonth() - i);
+          months.push(format(d, 'MMM'));
+        }
+
+        const monthlyStats = deliveredOrders.reduce((acc: any, order) => {
+          const date = order.createdAt?.toDate() || new Date();
+          const month = format(date, 'MMM');
+          acc[month] = (acc[month] || 0) + order.totalPrice;
+          return acc;
+        }, {});
+
+        const formattedChartData = months.map(month => ({
+          name: month,
+          sales: monthlyStats[month] || 0
+        }));
+
+        setChartData(formattedChartData);
 
         const recentQ = query(collection(db, 'orders'), orderBy('createdAt', 'desc'), limit(5));
         const recentSnap = await getDocs(recentQ);
@@ -52,15 +76,6 @@ const AdminDashboard: React.FC = () => {
 
     fetchStats();
   }, []);
-
-  const data = [
-    { name: 'Jan', sales: 4000 },
-    { name: 'Feb', sales: 3000 },
-    { name: 'Mar', sales: 2000 },
-    { name: 'Apr', sales: 2780 },
-    { name: 'May', sales: 1890 },
-    { name: 'Jun', sales: 2390 },
-  ];
 
   return (
     <div className="flex bg-gray-50 min-h-screen">
@@ -130,7 +145,7 @@ const AdminDashboard: React.FC = () => {
               </div>
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={data}>
+                  <AreaChart data={chartData}>
                     <defs>
                       <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#1A1A1A" stopOpacity={0.1}/>
